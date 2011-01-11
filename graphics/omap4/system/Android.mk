@@ -23,6 +23,8 @@
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
 
+ifeq ($(TARGET_BOARD_PLATFORM),omap4)
+
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -67,3 +69,4 @@ $(libs_to_link): % : %.$(library_version)
 
 ALL_PREBUILT += $(copy_files_to)
 
+endif
