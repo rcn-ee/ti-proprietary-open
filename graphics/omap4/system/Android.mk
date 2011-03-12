@@ -36,35 +36,35 @@ endef
 
 # find the library version number
 library_version := $(shell \
-	echo "$(wildcard $(LOCAL_PATH)/lib/libIMGegl.so.*)" | \
-	sed "s%.*libIMGegl[.]so[.]\(.*\)%\1%" \
-	)
+    echo "$(wildcard $(LOCAL_PATH)/vendor/lib/libIMGegl.so.*)" | \
+    sed "s%.*libIMGegl[.]so[.]\(.*\)%\1%" \
+    )
 
 copy_lib_files_from := \
-	$(wildcard $(LOCAL_PATH)/lib/*.so.*) \
-	$(wildcard $(LOCAL_PATH)/vendor/lib/egl/*.so.*) \
-	$(wildcard $(LOCAL_PATH)/vendor/lib/hw/*.so.*) 
+    $(wildcard $(LOCAL_PATH)/vendor/lib/*.so.*) \
+    $(wildcard $(LOCAL_PATH)/vendor/lib/egl/*.so.*) \
+    $(wildcard $(LOCAL_PATH)/vendor/lib/hw/*.so.*)
 copy_lib_files_to := $(copy_lib_files_from:$(LOCAL_PATH)/%=$(TARGET_OUT)/%)
 
 libs_to_link := $(copy_lib_files_to:%.$(library_version)=%)
 
 misc_files_from := \
-	$(LOCAL_PATH)/bin/pvrsrvinit
+    $(LOCAL_PATH)/bin/pvrsrvinit
 misc_files_to := $(misc_files_from:$(LOCAL_PATH)/%=$(TARGET_OUT)/%)
 
 copy_files_to := \
-	$(copy_lib_files_to) \
-	$(libs_to_link) \
-	$(misc_files_to)
+    $(copy_lib_files_to) \
+    $(libs_to_link) \
+    $(misc_files_to)
 
 $(copy_lib_files_to): $(TARGET_OUT)/% : $(LOCAL_PATH)/% | $(ACP)
-	$(transform-prebuilt-to-target)
+    $(transform-prebuilt-to-target)
 
 $(misc_files_to): $(TARGET_OUT)/% : $(LOCAL_PATH)/% | $(ACP)
-	$(transform-prebuilt-to-target)
+    $(transform-prebuilt-to-target)
 
 $(libs_to_link): % : %.$(library_version)
-	$(local-transform-link-to-target)
+    $(local-transform-link-to-target)
 
 
 ALL_PREBUILT += $(copy_files_to)
