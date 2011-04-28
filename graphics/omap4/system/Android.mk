@@ -26,7 +26,6 @@
 ifeq ($(TARGET_BOARD_PLATFORM),omap4)
 
 LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
 
 define local-transform-link-to-target
 @echo "$(if $(PRIVATE_IS_HOST_MODULE),host,target) Prebuilt: $(PRIVATE_MODULE) ($@)"
@@ -58,15 +57,21 @@ copy_files_to := \
     $(misc_files_to)
 
 $(copy_lib_files_to): $(TARGET_OUT)/% : $(LOCAL_PATH)/% | $(ACP)
-    $(transform-prebuilt-to-target)
+	$(transform-prebuilt-to-target)
 
 $(misc_files_to): $(TARGET_OUT)/% : $(LOCAL_PATH)/% | $(ACP)
-    $(transform-prebuilt-to-target)
+	$(transform-prebuilt-to-target)
 
 $(libs_to_link): % : %.$(library_version)
-    $(local-transform-link-to-target)
+	$(local-transform-link-to-target)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE := gfx-libs
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_MODULE_TAGS := optional
 
-ALL_PREBUILT += $(copy_files_to)
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE): $(copy_files_to)
 
 endif
