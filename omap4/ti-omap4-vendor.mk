@@ -16,5 +16,5 @@
 # This lists the packages that are necessary to build a device using
 # the Texas Instruments OMAP 44xx series SoCs
 
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
 	ti_omap4_sgx_libs
