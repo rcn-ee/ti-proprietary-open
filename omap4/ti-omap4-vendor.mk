@@ -17,4 +17,5 @@
 # the Texas Instruments OMAP 44xx series SoCs
 
 PRODUCT_PACKAGES += \
-	ti_omap4_sgx_libs
+	ti_omap4_sgx_libs \
+	ti_omap_ducati_libs
