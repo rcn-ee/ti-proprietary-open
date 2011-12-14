@@ -12,3 +12,4 @@ if [ -d $1/$2 ]; then
 fi
 
 tar -C $1 -zxf $3
+find $1/$2 -type f -exec touch {} \;
