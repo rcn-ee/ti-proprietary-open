@@ -18,4 +18,4 @@
 
 PRODUCT_PACKAGES += \
 	ti_omap4_sgx_libs \
-	ti_omap_ducati_libs
+	ti_omap4_ducati_libs
