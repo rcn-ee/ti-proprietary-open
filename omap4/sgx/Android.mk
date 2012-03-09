@@ -28,26 +28,56 @@ OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_EXECUTABLES)
 include $$(BUILD_PREBUILT)
 endef
 
+define _add-sgx-vendor-etc
+include $$(CLEAR_VARS)
+$(if $(word 2,$1),$(error Invalid SGX module name $1))
+LOCAL_MODULE := $(basename $(notdir $1))
+LOCAL_SRC_FILES := $1
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_SUFFIX := $(suffix $1)
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /$(dir $1))
+LOCAL_STRIP_MODULE := false
+OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
+include $$(BUILD_PREBUILT)
+endef
 
 prebuilt_sgx_vendor_libs := \
-	lib/libIMGegl.so \
-	lib/libglslcompiler.so \
-	lib/libusc.so \
-	lib/libPVRScopeServices.so \
-	lib/libsrv_um.so \
-	lib/hw/gralloc.omap4.so \
-	lib/libpvrANDROID_WSEGL.so \
-	lib/libpvr2d.so \
-	lib/libsrv_init.so \
+	lib/libIMGegl_SGX540_120.so \
+	lib/libglslcompiler_SGX540_120.so \
+	lib/libusc_SGX540_120.so \
+	lib/libPVRScopeServices_SGX540_120.so \
+	lib/libsrv_um_SGX540_120.so \
+	lib/hw/gralloc.omap4460.so \
+	lib/libpvrANDROID_WSEGL_SGX540_120.so \
+	lib/libpvr2d_SGX540_120.so \
+	lib/libsrv_init_SGX540_120.so \
 	lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \
 	lib/egl/libGLESv2_POWERVR_SGX540_120.so \
-	lib/egl/libEGL_POWERVR_SGX540_120.so
+	lib/egl/libEGL_POWERVR_SGX540_120.so \
+	lib/libIMGegl_SGX544_112.so \
+	lib/libglslcompiler_SGX544_112.so \
+	lib/libusc_SGX544_112.so \
+	lib/libPVRScopeServices_SGX544_112.so \
+	lib/libsrv_um_SGX544_112.so \
+	lib/hw/gralloc.omap4470.so \
+	lib/libpvrANDROID_WSEGL_SGX544_112.so \
+	lib/libpvr2d_SGX544_112.so \
+	lib/libsrv_init_SGX544_112.so \
+	lib/egl/libGLESv1_CM_POWERVR_SGX544_112.so \
+	lib/egl/libGLESv2_POWERVR_SGX544_112.so \
+	lib/egl/libEGL_POWERVR_SGX544_112.so
 
 prebuilt_sgx_vendor_bins := \
-	bin/pvrsrvinit
+	bin/pvrsrvinit \
+	bin/pvrsrvinit_SGX540_120 \
+	bin/pvrsrvinit_SGX544_112
+
+prebuilt_sgx_vendor_etc := \
+	etc/powervr.ini
 
 prebuilt_sgx_modules := \
-  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins),\
+  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc),\
     $(notdir $(basename $(_file))))
 
 include $(CLEAR_VARS)
@@ -62,8 +92,13 @@ $(foreach _file,$(prebuilt_sgx_vendor_libs),\
 $(foreach _file,$(prebuilt_sgx_vendor_bins),\
   $(eval $(call _add-sgx-vendor-bin,$(_file))))
 
+$(foreach _file,$(prebuilt_sgx_vendor_etc),\
+  $(eval $(call _add-sgx-vendor-etc,$(_file))))
+
 prebuilt_sgx_modules :=
 prebuilt_sgx_vendor_libs :=
 prebuilt_sgx_vendor_bins :=
+prebuilt_sgx_vendor_etc :=
 _add-sgx-vendor-lib :=
 _add-sgx-vendor-bin :=
+_add-sgx-vendor-etc :=
