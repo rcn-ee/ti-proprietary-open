@@ -42,6 +42,20 @@ OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
 include $$(BUILD_PREBUILT)
 endef
 
+define _add-sgx-vendor-km
+include $$(CLEAR_VARS)
+$(if $(word 2,$1),$(error Invalid SGX module name $1))
+LOCAL_MODULE := $(basename $(notdir $1))
+LOCAL_SRC_FILES := $1
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_SUFFIX := $(suffix $1)
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /lib/$(dir $1))
+LOCAL_STRIP_MODULE := false
+OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
+include $$(BUILD_PREBUILT)
+endef
+
 prebuilt_sgx_vendor_libs := \
 	lib/libIMGegl_SGX540_120.so \
 	lib/libglslcompiler_SGX540_120.so \
@@ -76,8 +90,14 @@ prebuilt_sgx_vendor_bins := \
 prebuilt_sgx_vendor_etc := \
 	etc/powervr.ini
 
+prebuilt_sgx_vendor_km := \
+	modules/pvrsrvkm_sgx540_120.ko \
+	modules/pvrsrvkm_sgx544_112.ko \
+	modules/omaplfb_sgx540_120.ko \
+	modules/omaplfb_sgx544_112.ko
+
 prebuilt_sgx_modules := \
-  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc),\
+  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
     $(notdir $(basename $(_file))))
 
 include $(CLEAR_VARS)
@@ -95,10 +115,15 @@ $(foreach _file,$(prebuilt_sgx_vendor_bins),\
 $(foreach _file,$(prebuilt_sgx_vendor_etc),\
   $(eval $(call _add-sgx-vendor-etc,$(_file))))
 
+$(foreach _file,$(prebuilt_sgx_vendor_km),\
+  $(eval $(call _add-sgx-vendor-km,$(_file))))
+
 prebuilt_sgx_modules :=
 prebuilt_sgx_vendor_libs :=
 prebuilt_sgx_vendor_bins :=
 prebuilt_sgx_vendor_etc :=
+prebuilt_sgx_vendor_km :=
 _add-sgx-vendor-lib :=
 _add-sgx-vendor-bin :=
 _add-sgx-vendor-etc :=
+_add-sgx-vendor-km :=
