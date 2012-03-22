@@ -62,6 +62,7 @@ prebuilt_sgx_vendor_libs := \
 	lib/libusc_SGX540_120.so \
 	lib/libPVRScopeServices_SGX540_120.so \
 	lib/libsrv_um_SGX540_120.so \
+	lib/hw/gralloc.omap4430.so \
 	lib/hw/gralloc.omap4460.so \
 	lib/libpvrANDROID_WSEGL_SGX540_120.so \
 	lib/libpvr2d_SGX540_120.so \
