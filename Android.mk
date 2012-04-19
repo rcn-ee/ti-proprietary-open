@@ -2,6 +2,8 @@ LOCAL_PATH := $(my-dir)
 $(hide $(shell $(LOCAL_PATH)/untar.sh $(LOCAL_PATH)/omap4 sgx $(LOCAL_PATH)/omap4/sgx.tgz))
 $(hide $(shell $(LOCAL_PATH)/untar.sh $(LOCAL_PATH)/wl12xx wpan $(LOCAL_PATH)/wl12xx/wpan.tgz))
 
+include $(call all-subdir-makefiles)
+
 # Install Ducati from the TGZ defined in the device-inherited mk file
 #############################################
 ifneq ($(DUCATI_TGZ),)
@@ -29,5 +31,3 @@ $(LOCAL_BUILT_MODULE) : $(ti-ducati.untarred_timestamp) | $(ACP)
 	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
 endif
 #############################################
-
-include $(call all-subdir-makefiles)
