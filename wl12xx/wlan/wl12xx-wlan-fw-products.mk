@@ -7,4 +7,3 @@ PRODUCT_COPY_FILES += \
         device/ti/proprietary-open/wl12xx/wlan/wl127x-fw-4-sr.bin:system/etc/firmware/ti-connectivity/wl127x-fw-4-sr.bin \
         device/ti/proprietary-open/wl12xx/wlan/wl1271-nvs.bin:system/etc/firmware/ti-connectivity/wl1271-nvs.bin \
         device/ti/proprietary-open/wl12xx/wlan/wl1271-nvs_127x.bin:system/etc/firmware/ti-connectivity/wl1271-nvs_127x.bin \
-        device/ti/proprietary-open/wl12xx/wlan/wl18xx-fw.bin:system/etc/firmware/ti-connectivity/wl18xx-fw.bin
