@@ -1,8 +1,19 @@
 LOCAL_PATH := $(my-dir)
-$(hide $(shell $(LOCAL_PATH)/untar.sh $(LOCAL_PATH)/omap4 sgx $(LOCAL_PATH)/omap4/sgx.tgz))
+img-sgx.untarred_intermediates := $(call intermediates-dir-for, FAKE, img-sgx.untarred)
+img-sgx.untarred_timestamp := $(img-sgx.untarred_intermediates)/stamp
+img-sgx.untarred_bin := $(img-sgx.untarred_intermediates)/sgx
+img-sgx.tar := $(LOCAL_PATH)/$(TARGET_BOARD_PLATFORM)/sgx.tgz
+
 $(hide $(shell $(LOCAL_PATH)/untar.sh $(LOCAL_PATH)/wl12xx wpan $(LOCAL_PATH)/wl12xx/wpan.tgz))
 
 include $(call all-subdir-makefiles)
+
+$(img-sgx.untarred_timestamp) : $(img-sgx.tar)
+	@echo "Unzip $(dir $@) <- $<"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -xzf $<
+	$(hide) touch $@
+
 
 # Install Ducati from the TGZ defined in the device-inherited mk file
 #############################################
