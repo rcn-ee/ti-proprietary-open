@@ -11,4 +11,5 @@ if [ -d $1/$2 ]; then
   rm -rf $1/$2
 fi
 
+[ ! -d $1 ] && mkdir -p $1
 tar -C $1 -zxf $3

@@ -1,5 +1,3 @@
-LOCAL_PATH := $(call my-dir)
-
 define _add-sgx-vendor-lib
 include $$(CLEAR_VARS)
 $(if $(word 2,$1),$(error Invalid SGX module name $1))
@@ -8,10 +6,16 @@ LOCAL_SRC_FILES := $1
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := $(suffix $1)
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /vendor/$(dir $1))
+LOCAL_MODULE_PATH := $$(TARGET_OUT_VENDOR)/$(dir $1)
 LOCAL_STRIP_MODULE := false
 OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_LIBRARIES)
-include $$(BUILD_PREBUILT)
+LOCAL_PATH := $$(img-sgx.untarred_bin)
+include $$(BUILD_SYSTEM)/base_rules.mk
+$$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
+$$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
+	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
+	@mkdir -p $(dir $$@)
+	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
 endef
 
 define _add-sgx-vendor-bin
@@ -22,10 +26,16 @@ LOCAL_SRC_FILES := $1
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := $(suffix $1)
 LOCAL_MODULE_CLASS := EXECUTABLES
-LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /vendor/$(dir $1))
+LOCAL_MODULE_PATH := $$(TARGET_OUT_VENDOR)/$(dir $1)
 LOCAL_STRIP_MODULE := false
 OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_EXECUTABLES)
-include $$(BUILD_PREBUILT)
+LOCAL_PATH := $$(img-sgx.untarred_bin)
+include $$(BUILD_SYSTEM)/base_rules.mk
+$$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
+$$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
+	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
+	@mkdir -p $$(dir $$@)
+	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
 endef
 
 define _add-sgx-vendor-etc
@@ -36,10 +46,16 @@ LOCAL_SRC_FILES := $1
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := $(suffix $1)
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /$(dir $1))
+LOCAL_MODULE_PATH := $$(TARGET_OUT)/$(dir $1)
 LOCAL_STRIP_MODULE := false
 OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
-include $$(BUILD_PREBUILT)
+LOCAL_PATH := $$(img-sgx.untarred_bin)
+include $$(BUILD_SYSTEM)/base_rules.mk
+$$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
+$$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
+	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
+	@mkdir -p $$(dir $$@)
+	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
 endef
 
 define _add-sgx-vendor-km
@@ -50,10 +66,16 @@ LOCAL_SRC_FILES := $1
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := $(suffix $1)
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $$(TARGET_OUT)$(abspath /lib/$(dir $1))
+LOCAL_MODULE_PATH := $$(TARGET_OUT)/lib/$(dir $1)
 LOCAL_STRIP_MODULE := false
 OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
-include $$(BUILD_PREBUILT)
+LOCAL_PATH := $$(img-sgx.untarred_bin)
+include $$(BUILD_SYSTEM)/base_rules.mk
+$$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
+$$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
+	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
+	@mkdir -p $$(dir $$@)
+	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
 endef
 
 prebuilt_sgx_vendor_libs := \
