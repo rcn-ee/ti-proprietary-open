@@ -7,7 +7,7 @@ pvrsrvinit.
 
 [DDK Version]
 1.8@869593
-DDK commit ID: 0b64ae8e73bc72ed5aff7624bd465d173018ca57
+DDK commit ID: 146317568a8f5338eea1e47d11f078c7f03ae953
 Branch: remotes/origin/ti_ics_1.8
 Kernel modules built against:
 Kernel Version: 3.0.21-00003-OMAP-Android
