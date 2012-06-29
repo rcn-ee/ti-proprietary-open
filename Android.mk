@@ -31,3 +31,134 @@ $(LOCAL_BUILT_MODULE) : $(ti-ducati.untarred_timestamp) | $(ACP)
 	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
 endif
 #############################################
+
+
+###############################################################################
+# Install WLAN firmware files
+###############################################################################
+
+ifneq ($(WLAN_TGZ),)
+wl12xx-wlan.untarred_intermediates := $(call intermediates-dir-for, FAKE, wl12xx-wlan.untarred)
+wl12xx-wlan.untarred_timestamp := $(wl12xx-wlan.untarred_intermediates)/stamp
+
+$(wl12xx-wlan.untarred_timestamp) : $(WLAN_TGZ)
+	@echo "Unzip $(dir $@) <- $<)"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -zxf $<
+	$(hide) touch $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl1271-nvs.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl1271-nvs.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl1271-nvs_127x.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl1271-nvs_127x.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl128x-fw-4-sr.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl128x-fw-4-sr.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl128x-fw-4-mr.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl128x-fw-4-mr.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl128x-fw-4-plt.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl128x-fw-4-plt.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl127x-fw-4-sr.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl127x-fw-4-sr.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl127x-fw-4-mr.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl127x-fw-4-mr.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := wl127x-fw-4-plt.bin
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl127x-fw-4-plt.bin
+$(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+endif
+
+################################################################################
