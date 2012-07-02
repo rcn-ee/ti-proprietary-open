@@ -6,8 +6,8 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-1.8@869593
-DDK commit ID: 5cfc1aac159890948da953b6ed670fd996db5d34
+1.8@945322
+DDK commit ID: 7d95406323b88d3fa36673f17a51ece300140a4e
 Branch: remotes/origin/ti_ics_1.8
 Kernel modules built against:
 Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y
