@@ -27,10 +27,10 @@ DDK:
 Go through README in ddk source tree.
 
 Build for 4430/4460
-# ./build_DDK.sh -g 540 --build release
+# EXCLUDED_APIS=unittests ./build_DDK.sh -g 540 --build release
 
 Build for 4470
-# ./build_DDK.sh -g 544sc --build release
+# EXCLUDED_APIS=unittests ./build_DDK.sh -g 544sc --build release
 
 - Installing DDK
 # export DISCIMAGE=<PATH TO ANDROID ROOT DIRECTORY>
