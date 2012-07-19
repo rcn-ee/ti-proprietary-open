@@ -7,7 +7,7 @@ pvrsrvinit.
 
 [DDK Version]
 1.8@945322
-DDK commit ID: 7d95406323b88d3fa36673f17a51ece300140a4e
+DDK commit ID: 937f180 omaplfb: Allocate a clear buffer with 8 pixel stride per GC requ
 Branch: remotes/origin/ti_ics_1.8
 Kernel modules built against:
 Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y
