@@ -7,7 +7,7 @@ pvrsrvinit.
 
 [DDK Version]
 1.8@945322
-DDK commit ID: 937f18066eb8e983259dd0d5324a3a9ef874bf14
+DDK commit ID: 4cb50167c5984eeb26ad2a3ad17c4bd7be7811ed
 Branch: remotes/origin/ti_ics_1.8
 Kernel modules built against:
 Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y
