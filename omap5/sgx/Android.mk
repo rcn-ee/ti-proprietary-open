@@ -119,12 +119,15 @@ prebuilt_sgx_vendor_bins := \
 	bin/pvrsrvinit \
 	bin/framebuffer_test
 
+prebuilt_sgx_vendor_etc := \
+	etc/powervr.ini
+
 prebuilt_sgx_vendor_km := \
 	modules/pvrsrvkm_sgx544_105.ko \
 	modules/omaplfb_sgx544_105.ko
 
 prebuilt_sgx_modules := \
-  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_km),\
+  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
     $(notdir $(basename $(_file))))
 
 include $(CLEAR_VARS)
@@ -139,13 +142,18 @@ $(foreach _file,$(prebuilt_sgx_vendor_libs),\
 $(foreach _file,$(prebuilt_sgx_vendor_bins),\
   $(eval $(call _add-sgx-vendor-bin,$(_file))))
 
+$(foreach _file,$(prebuilt_sgx_vendor_etc),\
+  $(eval $(call _add-sgx-vendor-etc,$(_file))))
+
 $(foreach _file,$(prebuilt_sgx_vendor_km),\
   $(eval $(call _add-sgx-vendor-km,$(_file))))
 
 prebuilt_sgx_modules :=
 prebuilt_sgx_vendor_libs :=
 prebuilt_sgx_vendor_bins :=
+prebuilt_sgx_vendor_etc :=
 prebuilt_sgx_vendor_km :=
 _add-sgx-vendor-lib :=
 _add-sgx-vendor-bin :=
+_add-sgx-vendor-etc :=
 _add-sgx-vendor-km :=
