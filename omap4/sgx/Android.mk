@@ -107,17 +107,15 @@ prebuilt_sgx_vendor_libs := \
 
 prebuilt_sgx_vendor_bins := \
 	bin/pvrsrvinit \
-	bin/pvrsrvinit_SGX540_120 \
-	bin/pvrsrvinit_SGX544_112
+	bin/pvrsrvctl_SGX540_120 \
+	bin/pvrsrvctl_SGX544_112
 
 prebuilt_sgx_vendor_etc := \
 	etc/powervr.ini
 
 prebuilt_sgx_vendor_km := \
 	modules/pvrsrvkm_sgx540_120.ko \
-	modules/pvrsrvkm_sgx544_112.ko \
-	modules/omaplfb_sgx540_120.ko \
-	modules/omaplfb_sgx544_112.ko
+	modules/pvrsrvkm_sgx544_112.ko
 
 prebuilt_sgx_modules := \
   $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
