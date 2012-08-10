@@ -94,8 +94,6 @@ prebuilt_sgx_vendor_etc := \
 prebuilt_sgx_vendor_km := \
 	modules/pvrsrvkm_sgx540_120.ko \
 	modules/pvrsrvkm_sgx544_112.ko \
-	modules/omaplfb_sgx540_120.ko \
-	modules/omaplfb_sgx544_112.ko
 
 prebuilt_sgx_modules := \
   $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
