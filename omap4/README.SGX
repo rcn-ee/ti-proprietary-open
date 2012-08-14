@@ -8,11 +8,11 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-    1.9@956766
+    1.9@2120756
 [DDK commit ID]
-    28c171c SGX-UM: Don't load omaplfb module when in-kernel driver is present
+    18545f4 SGX UM: HACK: add extra read in SGXInitialise Script 1
 [Branch]
-    1.9/956766
+    1.9/2120756
 [Kernel modules built against]
     Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
 
@@ -78,11 +78,9 @@ Once the .ko's are built, install them onto device (/system/lib/modules)
 For 4460:
 # cd ANDROID_ROOT/device/ti/proprietary-open/omap4/sgx_src/eurasia_km/eurasiacon/binary2_540_120_omap4430_android_release/target/
 # adb push pvrsrvkm_sgx540_120.ko /system/lib/modules/
-# adb push omaplfb_sgx540_120.ko /system/lib/modules/
 
 For 4470
 # cd ANDROID_ROOT/device/ti/proprietary-open/omap4/sgx_src/eurasia_km/eurasiacon/binary2_544_120_omap4430_android_release/target/
 # adb push pvrsrvkm_sgx544_112.ko /system/lib/modules/
-# adb push omaplfb_sgx544_112.ko /system/lib/modules/
 
 Reboot device.
