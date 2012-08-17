@@ -1,4 +1,6 @@
-SGX Binaries
+#==========================================================================
+# SGX Binaries
+#==========================================================================
 
 sgx.tgz now contains two sets of binaries. One built for SGX540 and one built for SGX544.
 The SGXCORE and SGC_CORE_REV is appended to the end of each file. pvrsrvinit is now a
@@ -6,11 +8,27 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-1.9@2120756
-DDK commit ID: 18545f4fd3fd7e7f1d56a60363d1ba0dc7848c73
-Branch: remotes/origin/1.9/2120756
-Kernel modules built against:
-Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y
+    1.9@2130229
+[DDK commit ID]
+    63cc56e SGX-UM: Fix YV12 plane offset calculation
+[Branch]
+    1.9/2130229
+[Kernel modules built against]
+    Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
+
+This kernel also now has omaplfb added to it:
+
+commit b49820dbb7d5851101136e8e27210cb410fc9822
+Author: Hemant Hariyani <hemanthariyani@ti.com>
+Date:   Thu Jul 26 14:16:53 2012 -0500
+
+    omaplfb: Add omaplfb to the kernel tree
+
+    omaplfb has dependencies on several kernel components and it will
+    be easier to maintain it in the kernel tree.
+    
+    Sync'd to DDK omaplfb patch:
+    omaplfb: Allocate a clear buffer with 8 pixel stride per GC requirement
 
 #==========================================================================
 #   Cloning instructions
