@@ -8,11 +8,11 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-    1.9@2120756
+    1.9@2130229
 [DDK commit ID]
-    18545f4 SGX UM: HACK: add extra read in SGXInitialise Script 1
+    63cc56e SGX-UM: Fix YV12 plane offset calculation
 [Branch]
-    1.9/2120756
+    1.9/2130229
 [Kernel modules built against]
     Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
 
