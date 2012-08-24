@@ -7,10 +7,13 @@ pvrsrvinit.
 
 [DDK Version]
 1.8@945322
-DDK commit ID: 50aafe77c15980f96349becc73751b74b287bf90
+DDK commit ID: 840103005ba675b613bcd0e87881396a3d53b995
 Branch: remotes/origin/ti_ics_1.8
 Kernel modules built against:
 Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y
+
+This DDK require kernel patch for bltsville update header to 2.2
+http://review.omapzoom.org/#/c/26886/
 
 #==========================================================================
 #   Cloning instructions
