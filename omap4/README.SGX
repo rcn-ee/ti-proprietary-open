@@ -8,16 +8,18 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-    1.9@2120756
+    1.9@2130229
 [DDK commit ID]
-    18545f4 SGX UM: HACK: add extra read in SGXInitialise Script 1
+    d75394f SGX KM: Fix num_handle calculation for ion handles
 [Branch]
-    1.9/2120756
+    1.9/2130229
 [Kernel modules built against]
     Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
 
-This kernel also now has omaplfb added to it:
+This DDK require kernel patch for bltsville update header to 2.2
+http://review.omapzoom.org/#/c/26780/
 
+This kernel also now has omaplfb added to it:
 commit b49820dbb7d5851101136e8e27210cb410fc9822
 Author: Hemant Hariyani <hemanthariyani@ti.com>
 Date:   Thu Jul 26 14:16:53 2012 -0500
