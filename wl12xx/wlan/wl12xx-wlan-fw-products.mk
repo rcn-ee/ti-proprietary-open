@@ -25,5 +25,7 @@ PRODUCT_PACKAGES += \
         wl127x-fw-4-mr.bin \
         wl127x-fw-4-plt.bin \
         wl127x-fw-4-sr.bin \
+	wl18xx-fw.bin \
+	wl18xx-conf.bin \
         wl1271-nvs.bin \
         wl1271-nvs_127x.bin
