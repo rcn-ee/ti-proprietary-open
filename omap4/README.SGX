@@ -8,11 +8,11 @@ wrapper which detects the current processor and loads the corresponding core spe
 pvrsrvinit.
 
 [DDK Version]
-    1.9@2130229
+    1.9RC2@2139099
 [DDK commit ID]
-    d75394f SGX KM: Fix num_handle calculation for ion handles
+    14f82bb SGX KM: ShrinkPagePool statistics changed to PVR_DBG_MESSAGE
 [Branch]
-    1.9/2130229
+    origin/1.9/RC2
 [Kernel modules built against]
     Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
 
