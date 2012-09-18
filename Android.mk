@@ -169,14 +169,14 @@ $(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
 	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := wl18xx-fw.bin
+LOCAL_MODULE := wl18xx-fw-mc.bin
 LOCAL_MODULE_CLASS := FAKE
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
 
 include $(BUILD_SYSTEM)/base_rules.mk
 
-$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl18xx-fw.bin
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(wl12xx-wlan.untarred_intermediates)/wlan/wl18xx-fw-mc.bin
 $(LOCAL_BUILT_MODULE) : $(wl12xx-wlan.untarred_timestamp) | $(ACP)
 	@echo "Copy $@ <- $(PRIVATE_SRC)"
 	@mkdir -p $(dir $@)
