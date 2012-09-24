@@ -10,11 +10,17 @@ pvrsrvinit.
 [DDK Version]
     1.9RC2@2139099
 [DDK commit ID]
-    14f82bb SGX KM: ShrinkPagePool statistics changed to PVR_DBG_MESSAGE
+    ad6e72e SGX UM: Set ro.product.processor before loading modules
 [Branch]
     origin/1.9/RC2
 [Kernel modules built against]
     Kernel Version: 3.0.31 with CONFIG_MODVERSIONS=y and CONFIG_SCHED_TRACER=y
+[Patches added since last release]
+    ad6e72e SGX UM: Set ro.product.processor before loading modules
+    c59e125 SGX UM: Pvrsrvinit fix typo in remount command
+    b5a4dca SGX UM: Remove BRN32044 for omap5
+    b3f0cc6 SGX UM: Fix coefficients for RGB->NV12 blit
+    dcd7ea1 OMAP5: WA: Race condition when SGX is powered down
 
 This DDK require kernel patch for bltsville update header to 2.2
 http://review.omapzoom.org/#/c/26780/
