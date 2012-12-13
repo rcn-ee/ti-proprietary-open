@@ -252,7 +252,6 @@ $(LOCAL_BUILT_MODULE) : $(WPAN_TGZ)
 	$(hide) mkdir -p $(wpan.untarred_intermediates)
 	$(hide) tar -C $(wpan.untarred_intermediates) -zvxf $<
 	$(hide) touch $(wpan.untarred_intermediates)
-	$(hide) tar -C $(WPAN_FW_LOCAL_PATH) -zvxf $<
 
 $(LOCAL_INSTALLED_MODULE) : $(LOCAL_BUILT_MODULE) | $(ACP)
 	@echo "Copying wpan firmware ..."
