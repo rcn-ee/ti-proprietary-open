@@ -94,28 +94,28 @@ $$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
 endef
 
 prebuilt_sgx_vendor_libs := \
-	lib/libIMGegl_SGX544_105.so \
-	lib/libglslcompiler_SGX544_105.so \
-	lib/libusc_SGX544_105.so \
-	lib/libPVRScopeServices_SGX544_105.so \
-	lib/libsrv_um_SGX544_105.so \
+	lib/libIMGegl_SGX544_116.so \
+	lib/libglslcompiler_SGX544_116.so \
+	lib/libusc_SGX544_116.so \
+	lib/libPVRScopeServices_SGX544_116.so \
+	lib/libsrv_um_SGX544_116.so \
 	lib/hw/gralloc.omap5.so \
-	lib/libpvrANDROID_WSEGL_SGX544_105.so \
-	lib/libpvr2d_SGX544_105.so \
-	lib/libsrv_init_SGX544_105.so \
-	lib/egl/libGLESv1_CM_POWERVR_SGX544_105.so \
-	lib/egl/libGLESv2_POWERVR_SGX544_105.so \
-	lib/egl/libEGL_POWERVR_SGX544_105.so
+	lib/libpvrANDROID_WSEGL_SGX544_116.so \
+	lib/libpvr2d_SGX544_116.so \
+	lib/libsrv_init_SGX544_116.so \
+	lib/egl/libGLESv1_CM_POWERVR_SGX544_116.so \
+	lib/egl/libGLESv2_POWERVR_SGX544_116.so \
+	lib/egl/libEGL_POWERVR_SGX544_116.so
 
 prebuilt_sgx_vendor_bins := \
 	bin/pvrsrvinit \
-	bin/pvrsrvctl_SGX544_105
+	bin/pvrsrvctl_SGX544_116
 
 prebuilt_sgx_vendor_etc := \
 	etc/powervr.ini
 
 prebuilt_sgx_vendor_km := \
-	modules/pvrsrvkm_sgx544_105.ko
+	modules/pvrsrvkm_sgx544_116.ko
 
 prebuilt_sgx_modules := \
   $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
