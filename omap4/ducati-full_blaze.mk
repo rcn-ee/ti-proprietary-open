@@ -19,5 +19,6 @@
 
 ifeq (full_blaze,$(TARGET_PRODUCT))
 DUCATI_TGZ := device/ti/proprietary-open/omap4/ducati_full_blaze.tgz
+DUCATI_BINARY := ducati-m3.bin
 PRODUCT_PACKAGES += ducati-m3.bin
 endif

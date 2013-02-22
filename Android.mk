@@ -26,14 +26,14 @@ $(ti-ducati.untarred_timestamp) : $(DUCATI_TGZ)
 	$(hide) touch $@
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := ducati-m3.bin
+LOCAL_MODULE := $(DUCATI_BINARY)
 LOCAL_MODULE_CLASS := FAKE
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/firmware
 
 include $(BUILD_SYSTEM)/base_rules.mk
 
-$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-ducati.untarred_intermediates)/ducati-m3.bin
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-ducati.untarred_intermediates)/$(DUCATI_BINARY)
 $(LOCAL_BUILT_MODULE) : $(ti-ducati.untarred_timestamp) | $(ACP)
 	@echo "Copy $@ <- $(PRIVATE_SRC)"
 	@mkdir -p $(dir $@)
