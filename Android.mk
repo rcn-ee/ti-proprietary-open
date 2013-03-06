@@ -71,34 +71,3 @@ $(LOCAL_BUILT_MODULE) : $(ti-tesla.untarred_timestamp) | $(ACP)
 endif
 
 #############################################
-
-################################################################################
-# Install WPAN firmware files
-###############################################################################
-WPAN_TGZ := device/ti/proprietary-open/wl12xx/wpan.tgz
-
-ifneq ($(WPAN_TGZ),)
-include $(CLEAR_VARS)
-
-wpan.untarred_intermediates := $(call intermediates-dir-for, FAKE, wpan.untarred)
-wpan.untarred_timestamp := $(wpan.untarred_intermediates)/stamp
-
-WPAN_FW_LOCAL_PATH:= device/ti/proprietary-open/wl12xx/
-LOCAL_MODULE := ti-wpan-fw
-LOCAL_MODULE_CLASS := FAKE
-LOCAL_MODULE_TAGS := optional
-
-include $(BUILD_SYSTEM)/base_rules.mk
-
-$(LOCAL_BUILT_MODULE) : $(WPAN_TGZ)
-	echo "Unzip $(wpan.untarred_intermediates) <- $<"
-	$(hide) rm -rvf $(wpan.untarred_intermediates)/wpan
-	$(hide) mkdir -p $(wpan.untarred_intermediates)
-	$(hide) tar -C $(wpan.untarred_intermediates) -zvxf $<
-	$(hide) touch $(wpan.untarred_intermediates)
-
-$(LOCAL_INSTALLED_MODULE) : $(LOCAL_BUILT_MODULE) | $(ACP)
-	@echo "Copying wpan firmware ..."
-	@mkdir -p $(PRODUCT_OUT)/system/etc/firmware
-	$(hide) $(ACP) -rfpv $(wpan.untarred_intermediates)/wpan/*/*.bts $(PRODUCT_OUT)/system/etc/firmware/
-endif
