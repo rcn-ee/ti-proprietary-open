@@ -19,9 +19,11 @@ core specific pvrsrvinit.
 [DDK Version]
     1.9@2166536
 [DDK commit ID]
-    084d3db SGX-KM: sgxfreq: Enable on3demand governor as default
+    e5f7406 SGX-KM: (HACK) Disable burst combiner
 [Branch]
     origin/1.9/2166536
+[DDK Tag]
+    1.9IMG2166536_TI.0005
 [Kernel modules built against]
     Kernel Version: 3.4.9 with CONFIG_MODVERSIONS=y
 
@@ -40,8 +42,8 @@ To build for OMAP5 (SGX 544 multi core):
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
-# cd ANDROID_ROOT/device/ti/proprietary-open/omap5/sgx_src/eurasia_km/eurasiacon/binary2_544_105_omap4430_android_release/target/
-# adb push pvrsrvkm_sgx544_105.ko /system/lib/modules/
+# cd ANDROID_ROOT/device/ti/proprietary-open/omap5/sgx_src/eurasia_km/eurasiacon/binary2_544_116_omap4430_android_release/target/
+# adb push pvrsrvkm_sgx544_116.ko /system/lib/modules/
 
 If you build the kernel module, it is highly advisable to replace the binaries
 in your device with the ones located in sgx.tgz to avoid incompatibility.
