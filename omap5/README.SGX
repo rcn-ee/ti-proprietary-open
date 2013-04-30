@@ -19,11 +19,11 @@ core specific pvrsrvinit.
 [DDK Version]
     1.9@2166536
 [DDK commit ID]
-    e5f7406 SGX-KM: (HACK) Disable burst combiner
+    250e6f5 SGX-UM: Creating two fb instances for JB MR1.
 [Branch]
-    origin/1.9/2166536
+    origin/1.9/hwc1.1
 [DDK Tag]
-    1.9IMG2166536_TI.0005
+    1.9IMG2166536_TI.0006
 [Kernel modules built against]
     Kernel Version: 3.4.9 with CONFIG_MODVERSIONS=y
 
