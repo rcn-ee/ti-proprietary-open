@@ -19,13 +19,11 @@ core specific pvrsrvinit.
 [DDK Version]
     1.9@2166536
 [DDK commit ID]
-    250e6f5 SGX-UM: Creating two fb instances for JB MR1.
+    6708c05 build: Add jacinto6 gralloc binary
 [Branch]
-    origin/1.9/hwc1.1
-[DDK Tag]
-    1.9IMG2166536_TI.0006
+    origin/1.9/j6-wip
 [Kernel modules built against]
-    Kernel Version: 3.4.9 with CONFIG_MODVERSIONS=y
+    Kernel Version: 3.8.y with CONFIG_MODVERSIONS=y
 
 #===========================================================================
 #   Building SGX Kernel Modules
