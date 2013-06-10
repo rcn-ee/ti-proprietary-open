@@ -32,7 +32,7 @@ SGX kernel modules source is located in sgx_src/eurasia_km/
 
 Make sure kernel is built before building modules
 
-# cd ANDROID_ROOT/device/ti/proprietary-open/omap5/sgx_src/eurasia_km/eurasiacon/build/linux2/omap4430_android/
+# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/build/linux2/omap4430_android/
 # export KERNELDIR=path_to_kernel
 
 To build for OMAP5 (SGX 544 multi core):
