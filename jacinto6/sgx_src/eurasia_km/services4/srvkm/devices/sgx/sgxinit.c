@@ -69,7 +69,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ttrace.h"
 
 IMG_UINT32 g_ui32HostIRQCountSample = 0;
-extern int powering_down;
 
 #if defined(PVRSRV_USSE_EDM_STATUS_DEBUG)
 
@@ -1252,7 +1251,9 @@ static INLINE IMG_UINT32 GetDirListBaseReg(IMG_UINT32 ui32Index)
 }
 #endif
 
+#if defined(CONFIG_DSSCOMP)
 void dsscomp_kdump(void);
+#endif
 /*!
 *******************************************************************************
 
@@ -1274,7 +1275,9 @@ IMG_VOID SGXDumpDebugInfo (PVRSRV_SGXDEV_INFO	*psDevInfo,
 {
 	IMG_UINT32	ui32CoreNum;
 
+#if defined(CONFIG_DSSCOMP)
 	dsscomp_kdump();
+#endif
 
 	PVR_LOG(("SGX debug (%s)", PVRVERSION_STRING));
 
@@ -1816,7 +1819,7 @@ IMG_BOOL SGX_ISRHandler (IMG_VOID *pvData)
 
 	/* Real Hardware */
 	{
-		IMG_UINT32 ui32EventStatus = 0, ui32EventEnable = 0;
+		IMG_UINT32 ui32EventStatus, ui32EventEnable;
 		IMG_UINT32 ui32EventClear = 0;
 #if defined(SGX_FEATURE_DATA_BREAKPOINTS)
 		IMG_UINT32 ui32EventStatus2, ui32EventEnable2;
@@ -1835,19 +1838,15 @@ IMG_BOOL SGX_ISRHandler (IMG_VOID *pvData)
 		psDeviceNode = (PVRSRV_DEVICE_NODE *)pvData;
 		psDevInfo = (PVRSRV_SGXDEV_INFO *)psDeviceNode->pvDevice;
 
-		if(!powering_down) {
-			ui32EventStatus = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_STATUS);
-			ui32EventEnable = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_ENABLE);
-		}
+		ui32EventStatus = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_STATUS);
+		ui32EventEnable = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_ENABLE);
 
 		/* test only the unmasked bits */
 		ui32EventStatus &= ui32EventEnable;
 
 #if defined(SGX_FEATURE_DATA_BREAKPOINTS)
-		if(!powering_down) {
-			ui32EventStatus2 = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_STATUS2);
-			ui32EventEnable2 = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_ENABLE2);
-		}
+		ui32EventStatus2 = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_STATUS2);
+		ui32EventEnable2 = OSReadHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_ENABLE2);
 
 		/* test only the unmasked bits */
 		ui32EventStatus2 &= ui32EventEnable2;
@@ -1882,10 +1881,8 @@ IMG_BOOL SGX_ISRHandler (IMG_VOID *pvData)
 			ui32EventClear |= EUR_CR_EVENT_HOST_CLEAR_MASTER_INTERRUPT_MASK;
 
 			/* clear the events */
-			if(!powering_down) {
-				OSWriteHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_CLEAR, ui32EventClear);
-				OSWriteHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_CLEAR2, ui32EventClear2);
-			}
+			OSWriteHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_CLEAR, ui32EventClear);
+			OSWriteHWReg(psDevInfo->pvRegsBaseKM, EUR_CR_EVENT_HOST_CLEAR2, ui32EventClear2);
 
 			/*
 				Sample the current count from the uKernel _after_ we've cleared the

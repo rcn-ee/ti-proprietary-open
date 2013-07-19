@@ -3781,7 +3781,11 @@ PVRSRV_ERROR OSAcquirePhysPageAddr(IMG_VOID *pvCPUVAddr,
     }
 
     /* Does the region represent memory mapped I/O? */
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,38))
+    if ((psVMArea->vm_flags & (VM_IO | VM_RESERVED)) != (VM_IO | VM_RESERVED))
+#else
     if ((psVMArea->vm_flags & (VM_IO)) != (VM_IO))
+#endif
     {
         PVR_DPF((PVR_DBG_ERROR,
             "OSAcquirePhysPageAddr: Memory region does not represent memory mapped I/O (VMA flags: 0x%lx)", psVMArea->vm_flags));

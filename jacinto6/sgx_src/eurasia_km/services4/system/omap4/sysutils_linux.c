@@ -721,14 +721,15 @@ SysDRMUnregisterPlugin(PVRSRV_DRM_PLUGIN *psDRMPlugin)
 
 int pvr_access_process_vm(struct task_struct *tsk, unsigned long addr, void *buf, int len, int write)
 {
-
-return -1;
-#if 0
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0))
 	struct gpu_platform_data *pdata;
 	pdata = (struct gpu_platform_data *)gpsPVRLDMDev->dev.platform_data;
 	if(!pdata || !pdata->access_process_vm)
 		return -1;
 	return pdata->access_process_vm(tsk, addr, buf, len, write);
+#else
+	/* FIXME: platform data not supported in 3.8 kernel */
+	return -1;
 #endif
 }
 

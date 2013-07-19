@@ -1566,7 +1566,7 @@ NewIONLinuxMemArea(IMG_UINT32 ui32Bytes, IMG_UINT32 ui32AreaFlags,
 
 			asAllocData[i].handle = ion_alloc (gpsIONClient,
 				ui32Bytes,
-				PAGE_SIZE, (1 << OMAP_ION_HEAP_SYSTEM),0);
+				PAGE_SIZE, (1 << OMAP_ION_HEAP_SYSTEM), 0);
 
 			if (asAllocData[i].handle == NULL)
 			{
@@ -1575,7 +1575,7 @@ NewIONLinuxMemArea(IMG_UINT32 ui32Bytes, IMG_UINT32 ui32AreaFlags,
 				goto err_free;
 			}
 
-			sgtable = ion_sg_table (gpsIONClient, asAllocData[i].handle);
+			sgtable = ion_sg_table(gpsIONClient, asAllocData[i].handle);
 			if (sgtable == NULL)
 			{
 				PVR_DPF((PVR_DBG_ERROR, "%s: Failed to compute pages",
@@ -1598,9 +1598,9 @@ NewIONLinuxMemArea(IMG_UINT32 ui32Bytes, IMG_UINT32 ui32AreaFlags,
 			}
 
 			iNumPages[i] = ui32Num1dPages;
-        }
-        else /* 2D DMM Buffers */
-        {
+	}
+	else /* 2D DMM Buffers */
+	{
 			if (omap_ion_tiler_alloc(gpsIONClient, &asAllocData[i]) < 0)
 			{
 				PVR_DPF((PVR_DBG_ERROR, "%s: Failed to allocate via ion_tiler",

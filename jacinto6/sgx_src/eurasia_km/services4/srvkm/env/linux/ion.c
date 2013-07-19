@@ -254,7 +254,7 @@ PVRSRV_ERROR IonImportBufferAndAquirePhysAddr(IMG_HANDLE hIonDev,
 {
 	struct ion_client *psIonClient = hIonDev;
 	struct ion_handle *psIonHandle;
-	struct scatterlist *psScatterList;
+	struct sg_table *psSgTable;
 	struct scatterlist *psTemp;
 	IMG_SYS_PHYADDR *pasSysPhysAddr = NULL;
 	ION_IMPORT_DATA *psImportData;
@@ -282,8 +282,8 @@ PVRSRV_ERROR IonImportBufferAndAquirePhysAddr(IMG_HANDLE hIonDev,
 	psImportData->psIonClient = psIonClient;
 	psImportData->psIonHandle = psIonHandle;	
 
-	psScatterList = ion_map_dma(psIonClient, psIonHandle);
-	if (psScatterList == NULL)
+	psSgTable = ion_sg_table(psIonClient, psIonHandle);
+	if (psSgTable == NULL)
 	{
 		eError = PVRSRV_ERROR_INVALID_PARAMS;
 		goto exitFailMap;
@@ -295,7 +295,7 @@ PVRSRV_ERROR IonImportBufferAndAquirePhysAddr(IMG_HANDLE hIonDev,
 	*/
 	for (i=0;i<2;i++)
 	{
-		psTemp = psScatterList;
+		psTemp = psSgTable->sgl;
 		if (i == 1)
 		{
 			pasSysPhysAddr = kmalloc(sizeof(IMG_SYS_PHYADDR) * ui32PageCount, GFP_KERNEL);
@@ -339,7 +339,6 @@ PVRSRV_ERROR IonImportBufferAndAquirePhysAddr(IMG_HANDLE hIonDev,
 	return PVRSRV_OK;
 
 exitFailAlloc:
-	ion_unmap_dma(psIonClient, psIonHandle);
 exitFailMap:
 	ion_free(psIonClient, psIonHandle);
 exitFailImport:
@@ -352,7 +351,6 @@ IMG_VOID IonUnimportBufferAndReleasePhysAddr(IMG_HANDLE hPriv)
 {
 	ION_IMPORT_DATA *psImportData = hPriv;
 
-	ion_unmap_dma(psImportData->psIonClient, psImportData->psIonHandle);
 	if (psImportData->pvKernAddr)
 	{
 		ion_unmap_kernel(psImportData->psIonClient, psImportData->psIonHandle);

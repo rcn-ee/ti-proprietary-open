@@ -21,7 +21,7 @@ core specific pvrsrvinit.
 [DDK commit ID]
     6708c05 build: Add jacinto6 gralloc binary
 [Branch]
-    origin/1.9/j6-wip
+    origin/1.9/2291151_k3.8
 [Kernel modules built against]
     Kernel Version: 3.8.y with CONFIG_MODVERSIONS=y
 
