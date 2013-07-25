@@ -78,7 +78,7 @@ static unsigned long _idle_prev_time;
 static unsigned long _active_curr_time;
 static unsigned long _active_prev_time;
 
-#if defined(CONFIG_THERMAL_FRAMEWORK)
+#if (defined(CONFIG_THERMAL) || defined(CONFIG_THERMAL_FRAMEWORK))
 int cool_init(void);
 void cool_deinit(void);
 #endif
@@ -491,8 +491,8 @@ int sgxfreq_init(struct device *dev)
 		return ret;
 	}
 
-#if defined(CONFIG_THERMAL_FRAMEWORK)
-	//cool_init();
+#if (defined(CONFIG_THERMAL) || defined(CONFIG_THERMAL_FRAMEWORK))
+	cool_init();
 #endif
 
 	for (i = 0; sgxfreq_gov_init[i] != NULL; i++)
@@ -517,7 +517,7 @@ int sgxfreq_deinit(void)
 
 	sgxfreq_set_freq_request(sfd.freq_list[0]);
 
-#if defined(CONFIG_THERMAL_FRAMEWORK)
+#if (defined(CONFIG_THERMAL) || defined(CONFIG_THERMAL_FRAMEWORK))
 	cool_deinit();
 #endif
 

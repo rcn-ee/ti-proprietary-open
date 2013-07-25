@@ -17,9 +17,9 @@ now a wrapper which detects the current processor and loads the corresponding
 core specific pvrsrvinit.
 
 [DDK Version]
-    1.9@2166536
+    1.9/2291151
 [DDK commit ID]
-    6708c05 build: Add jacinto6 gralloc binary
+    2f85c98 SGX-KM: GPU thermal integration for k3.8
 [Branch]
     origin/1.9/2291151_k3.8
 [Kernel modules built against]
