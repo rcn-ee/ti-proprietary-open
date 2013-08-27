@@ -36,7 +36,7 @@ Make sure kernel is built before building modules
 # export KERNELDIR=path_to_kernel
 
 To build for OMAP5 (SGX 544 multi core):
-# make ARCH=arm CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="omap5sevm" BUILD=release TARGET_SGX=544
+# make ARCH=arm CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="omap5sevm" BUILD=release TARGET_SGX=544es2
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
