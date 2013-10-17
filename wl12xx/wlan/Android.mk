@@ -19,72 +19,14 @@ ifeq ($(strip $(BOARD_WLAN_DEVICE)),wl12xx_mac80211)
 TI_WILINK_FW_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
 
 WLAN_FW_BINS := \
-	wl128x-fw-4-mr.bin \
-	wl128x-fw-4-plt.bin \
-	wl128x-fw-4-sr.bin \
-	wl127x-fw-4-mr.bin \
-	wl127x-fw-4-plt.bin \
-	wl127x-fw-4-sr.bin \
 	wl18xx-fw-mc.bin \
-	wl18xx-conf.bin \
-	wl1271-nvs.bin \
-	wl1271-nvs_127x.bin
+	wl18xx-conf.bin
 
 # path to FM fws (related to top dir)
 FW_WLAN_PATH := $(TARGET_EXTRACTED_FW)/wlan
 
 # path related to current location
 FW_WLAN_FULL_PATH := ../../../../../$(FW_WLAN_PATH)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl128x-fw-4-mr.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl128x-fw-4-mr.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl128x-fw-4-plt.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl128x-fw-4-plt.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl128x-fw-4-sr.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl128x-fw-4-sr.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl127x-fw-4-mr.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl127x-fw-4-mr.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl127x-fw-4-plt.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl127x-fw-4-plt.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl127x-fw-4-sr.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl127x-fw-4-sr.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := wl18xx-fw-mc.bin
@@ -97,23 +39,6 @@ include $(BUILD_PREBUILT)
 include $(CLEAR_VARS)
 LOCAL_MODULE := wl18xx-conf.bin
 LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl18xx-conf.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl1271-nvs.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl1271-nvs.bin
-LOCAL_MODULE_CLASS := FIRMWARE
-LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
-include $(CLEAR_VARS)
-LOCAL_MODULE := wl1271-nvs_127x.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl1271-nvs_127x.bin
 LOCAL_MODULE_CLASS := FIRMWARE
 LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
 LOCAL_MODULE_TAGS := optional

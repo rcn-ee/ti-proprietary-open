@@ -19,13 +19,5 @@
 
 WLAN_TGZ := device/ti/proprietary-open/wl12xx/wlan/wlan.tgz
 PRODUCT_PACKAGES += \
-        wl128x-fw-4-mr.bin \
-        wl128x-fw-4-plt.bin \
-        wl128x-fw-4-sr.bin \
-        wl127x-fw-4-mr.bin \
-        wl127x-fw-4-plt.bin \
-        wl127x-fw-4-sr.bin \
 	wl18xx-fw-mc.bin \
-	wl18xx-conf.bin \
-        wl1271-nvs.bin \
-        wl1271-nvs_127x.bin
+	wl18xx-conf.bin
