@@ -16,5 +16,3 @@
 WPAN_FW_TOP := device/ti/proprietary-open/wl12xx/wpan
 
 $(call inherit-product, $(WPAN_FW_TOP)/bluetooth/wl12xx-wpan-bt-fw-products.mk)
-$(call inherit-product, $(WPAN_FW_TOP)/fm/wl12xx-wpan-fm-fw-products.mk)
-$(call inherit-product, $(WPAN_FW_TOP)/nfc/wl12xx-wpan-nfc-fw-products.mk)
