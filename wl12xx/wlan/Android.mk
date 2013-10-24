@@ -19,7 +19,7 @@ ifeq ($(strip $(BOARD_WLAN_DEVICE)),wl12xx_mac80211)
 TI_WILINK_FW_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
 
 WLAN_FW_BINS := \
-	wl18xx-fw-mc.bin \
+	wl18xx-fw-2.bin \
 	wl18xx-conf.bin
 
 # path to FM fws (related to top dir)
@@ -29,8 +29,8 @@ FW_WLAN_PATH := $(TARGET_EXTRACTED_FW)/wlan
 FW_WLAN_FULL_PATH := ../../../../../$(FW_WLAN_PATH)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := wl18xx-fw-mc.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl18xx-fw-mc.bin
+LOCAL_MODULE := wl18xx-fw-2.bin
+LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl18xx-fw-2.bin
 LOCAL_MODULE_CLASS := FIRMWARE
 LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
 LOCAL_MODULE_TAGS := optional
