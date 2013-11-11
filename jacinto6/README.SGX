@@ -19,7 +19,7 @@ core specific pvrsrvinit.
 [DDK Version]
     1.9/2291151
 [DDK commit ID]
-    2f85c98 SGX-KM: GPU thermal integration for k3.8
+    e7405ce SGX-UM-Fix for graphics init race condition.
 [Branch]
     origin/1.9/2291151_k3.8
 [Kernel modules built against]
