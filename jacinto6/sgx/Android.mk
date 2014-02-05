@@ -94,28 +94,28 @@ $$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
 endef
 
 prebuilt_sgx_vendor_libs := \
-	lib/libIMGegl_SGX544_116.so \
-	lib/libglslcompiler_SGX544_116.so \
-	lib/libusc_SGX544_116.so \
-	lib/libPVRScopeServices_SGX544_116.so \
-	lib/libsrv_um_SGX544_116.so \
+	lib/libIMGegl.so \
+	lib/libglslcompiler.so \
+	lib/libusc.so \
+	lib/libPVRScopeServices.so \
+	lib/libsrv_um.so \
 	lib/hw/gralloc.jacinto6.so \
-	lib/libpvrANDROID_WSEGL_SGX544_116.so \
-	lib/libpvr2d_SGX544_116.so \
-	lib/libsrv_init_SGX544_116.so \
+	lib/libpvrANDROID_WSEGL.so \
+	lib/libpvr2d.so \
+	lib/libsrv_init.so \
 	lib/egl/libGLESv1_CM_POWERVR_SGX544_116.so \
 	lib/egl/libGLESv2_POWERVR_SGX544_116.so \
 	lib/egl/libEGL_POWERVR_SGX544_116.so
 
 prebuilt_sgx_vendor_bins := \
 	bin/pvrsrvinit \
-	bin/pvrsrvctl_SGX544_116
+	bin/pvrsrvctl
 
-prebuilt_sgx_vendor_etc := \
-	etc/powervr.ini
+#prebuilt_sgx_vendor_etc := \
+#	etc/powervr.ini
 
 prebuilt_sgx_vendor_km := \
-	modules/pvrsrvkm_sgx544_116.ko
+	modules/pvrsrvkm.ko
 
 prebuilt_sgx_modules := \
   $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\

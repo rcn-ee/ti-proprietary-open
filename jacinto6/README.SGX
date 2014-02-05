@@ -12,16 +12,13 @@
 #==========================================================================
 
 sgx.tgz a set of binaries built for SGX544.
-The SGXCORE and SGC_CORE_REV is appended to the end of each file. pvrsrvinit is
-now a wrapper which detects the current processor and loads the corresponding
-core specific pvrsrvinit.
 
 [DDK Version]
-    1.9/2291151
+    1.12/2701748
 [DDK commit ID]
-    e7405ce SGX-UM-Fix for graphics init race condition.
+    03b9484 build: Set correct load directory for kernel modules.
 [Branch]
-    origin/1.9/2291151_k3.8
+    android/1.12/2701748
 [Kernel modules built against]
     Kernel Version: 3.8.y with CONFIG_MODVERSIONS=y
 
@@ -32,11 +29,11 @@ SGX kernel modules source is located in sgx_src/eurasia_km/
 
 Make sure kernel is built before building modules
 
-# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/build/linux2/omap4430_android/
+# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/build/linux2/omap_android/
 # export KERNELDIR=path_to_kernel
 
 To build for OMAP5 (SGX 544 multi core):
-# make ARCH=arm CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="omap5sevm" BUILD=release TARGET_SGX=544es2
+# make ARCH=arm CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
