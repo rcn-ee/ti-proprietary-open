@@ -33,12 +33,12 @@ Make sure kernel is built before building modules
 # export KERNELDIR=path_to_kernel
 
 To build for OMAP5 (SGX 544 multi core):
-# make ARCH=arm CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" BUILD=release
+# make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" PLATFORM_VERSION=4.4 BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
-# cd ANDROID_ROOT/device/ti/proprietary-open/omap5/sgx_src/eurasia_km/eurasiacon/binary2_544_116_omap4430_android_release/target/
-# adb push pvrsrvkm_sgx544_116.ko /system/lib/modules/
+# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/binary2_omap_android_release/target/
+# adb push pvrsrvkm.ko /system/lib/modules/
 
 If you build the kernel module, it is highly advisable to replace the binaries
 in your device with the ones located in sgx.tgz to avoid incompatibility.
