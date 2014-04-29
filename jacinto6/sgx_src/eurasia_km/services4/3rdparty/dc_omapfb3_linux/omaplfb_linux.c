@@ -141,7 +141,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if defined(CONFIG_DSSCOMP)
 #if defined(CONFIG_DRM_OMAP_DMM_TILER)
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+#include <../drivers/gpu/drm/omapdrm/omap_dmm_tiler.h>
+#else
 #include <../drivers/staging/omapdrm/omap_dmm_tiler.h>
+#endif
 #include <../drivers/video/omap2/dsscomp/tiler-utils.h>
 #elif defined(CONFIG_TI_TILER)
 #include <mach/tiler.h>
@@ -175,6 +179,11 @@ MODULE_SUPPORTED_DEVICE(DEVNAME);
 #define OMAP_DSS_MANAGER(man, dev) struct omap_overlay_manager *man = (dev)->output->manager
 #define	WAIT_FOR_VSYNC(man)	((man)->wait_for_vsync)
 #else	/* defined(PVR_OMAPFB3_OMAP5_UEVM) */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+#define OMAP_DSS_DRIVER(drv, dev) struct omap_dss_driver *drv = (dev)->driver
+#define OMAP_DSS_MANAGER(man, dev) struct omap_overlay_manager *man = (dev)->output->manager
+#define	WAIT_FOR_VSYNC(man)	((man)->wait_for_vsync)
+#else /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)) */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
 #define OMAP_DSS_DRIVER(drv, dev) struct omap_dss_driver *drv = (dev) != NULL ? (dev)->driver : NULL
 #define OMAP_DSS_MANAGER(man, dev) struct omap_overlay_manager *man = (dev) != NULL ? (dev)->manager : NULL
@@ -184,6 +193,7 @@ MODULE_SUPPORTED_DEVICE(DEVNAME);
 #define OMAP_DSS_MANAGER(man, dev) struct omap_dss_device *man = (dev)
 #define	WAIT_FOR_VSYNC(man)	((man)->wait_vsync)
 #endif	/* (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34)) */
+#endif  /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)) */
 #endif	/* defined(PVR_OMAPFB3_OMAP5_UEVM) */
 #endif	/* !defined(PVR_OMAPLFB_DRM_FB) */
 
