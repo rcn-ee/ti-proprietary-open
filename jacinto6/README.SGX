@@ -16,7 +16,7 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2701748
 [DDK commit ID]
-    f60140c SGX-UM-Fix for graphics init race condition.
+    58a36f7 SGX-UM: Creating two fb instances for KitKat.
 [Branch]
     android/1.12/2701748
 [Kernel modules built against]
@@ -39,6 +39,7 @@ Once the .ko is built, install it onto device (/system/lib/modules)
 
 # cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/binary2_omap_android_release/target/
 # adb push pvrsrvkm.ko /system/lib/modules/
+# adb push omaplfb.ko /system/lib/modules/
 
 If you build the kernel module, it is highly advisable to replace the binaries
 in your device with the ones located in sgx.tgz to avoid incompatibility.
