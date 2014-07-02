@@ -100,6 +100,7 @@ prebuilt_sgx_vendor_libs := \
 	lib/libPVRScopeServices.so \
 	lib/libsrv_um.so \
 	lib/hw/gralloc.jacinto6.so \
+	lib/hw/memtrack.jacinto6.so \
 	lib/libpvrANDROID_WSEGL.so \
 	lib/libpvr2d.so \
 	lib/libsrv_init.so \
