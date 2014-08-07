@@ -14,11 +14,11 @@
 sgx.tgz a set of binaries built for SGX544.
 
 [DDK Version]
-    1.12/2701748
+    1.12/2917986
 [DDK commit ID]
-    441e166 SGX-UM: Retry loop for PVRSRVConnect.
+    a783598 build: enable framebuffer hal flag in build.
 [Branch]
-    android/1.12/2701748
+    android/1.12/2917986
 [Kernel modules built against]
     Kernel Version: 3.8.y with CONFIG_MODVERSIONS=y
 
