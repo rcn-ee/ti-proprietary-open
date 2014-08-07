@@ -38,17 +38,28 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ### ###########################################################################
 
+ifneq ($(KERNELDIR),)
+ifneq ($(SUPPORT_ION),)
 
-$(eval $(call BothConfigC,ANDROID,))
+# Support kernels built out-of-tree with O=/other/path
+# In those cases, KERNELDIR will be O, not the source tree.
+ifneq ($(wildcard $(KERNELDIR)/source),)
+KSRCDIR := $(KERNELDIR)/source
+else
+KSRCDIR := $(KERNELDIR)
+endif
 
+ifneq ($(wildcard $(KSRCDIR)/drivers/staging/android/ion/ion.h),)
+# The kernel has a more recent version of ion, located in drivers/staging.
+# Change the default header paths and the behaviour wrt sg_dma_len.
+SUPPORT_ION_HEADER := \"../drivers/staging/android/ion/ion.h\"
+SUPPORT_ION_PRIV_HEADER := \"../drivers/staging/android/ion/ion_priv.h\"
+SUPPORT_ION_USE_SG_LENGTH := 1
+endif
 
+$(eval $(call TunableKernelConfigC,SUPPORT_ION_HEADER,\"linux/ion.h\"))
+$(eval $(call TunableKernelConfigC,SUPPORT_ION_PRIV_HEADER,\"../drivers/gpu/ion/ion_priv.h\"))
+$(eval $(call TunableKernelConfigC,SUPPORT_ION_USE_SG_LENGTH,))
 
-
-$(eval $(call TunableBothConfigC,SUPPORT_PVRSRV_ANDROID_SYSTRACE,))
-
-$(eval $(call TunableBothConfigMake,SUPPORT_PVRSRV_ANDROID_SYSTRACE,))
-
-$(eval $(call TunableBothConfigMake,PVR_ANDROID_NATIVE_WINDOW_HAS_SYNC,))
-$(eval $(call TunableBothConfigC,PVR_ANDROID_NATIVE_WINDOW_HAS_SYNC,))
-
-include ../common/ion.mk
+endif
+endif

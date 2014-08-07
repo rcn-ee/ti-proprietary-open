@@ -533,9 +533,6 @@ PVRSRV_ERROR SysInitialise(IMG_VOID)
 	return PVRSRV_OK;
 }
 
-#if defined(CONFIG_OMAPLFB)
-int OMAPLFBRegisterPVRDriver(void * pfnFuncTable);
-#endif
 
 /*!
 ******************************************************************************
@@ -598,14 +595,6 @@ PVRSRV_ERROR SysFinalise(IMG_VOID)
 	/* SGX defaults to D3 power state */
 	DisableSGXClocks(gpsSysData);
 #endif	/* SUPPORT_ACTIVE_POWER_MANAGEMENT */
-
-#if defined(CONFIG_OMAPLFB)
-	if (OMAPLFBRegisterPVRDriver((void *)&PVRGetDisplayClassJTable) != 0)
-	{
-		PVR_DPF((PVR_DBG_ERROR,"SysFinalise: Failed to register PVR driver with omaplfb"));
-		return PVRSRV_ERROR_INIT_FAILURE;
-	}
-#endif
 
 	gpsSysSpecificData->bSGXInitComplete = IMG_TRUE;
 

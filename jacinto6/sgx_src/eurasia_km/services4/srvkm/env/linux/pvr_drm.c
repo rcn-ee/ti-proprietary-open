@@ -480,7 +480,9 @@ static const struct file_operations sPVRFileOps =
 	PVR_DRM_FOPS_IOCTL = drm_ioctl,
 	.mmap = PVRMMap,
 	.poll = drm_poll,
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,12,0))
 	.fasync = drm_fasync,
+#endif
 };
 #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0)) */
 

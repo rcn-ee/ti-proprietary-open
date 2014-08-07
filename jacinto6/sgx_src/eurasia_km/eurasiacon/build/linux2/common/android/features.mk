@@ -186,8 +186,9 @@ endif
 # We also need to support IMPLEMENTATION_DEFINED so gralloc allocates
 # framebuffers and GPU buffers in a 'preferred' format.
 #
-ifeq ($(is_at_least_jellybean_mr1),0)
+# FB HAL is still being used in TI post JB MR1 releases.
 SUPPORT_ANDROID_FRAMEBUFFER_HAL := 1
+ifeq ($(is_at_least_jellybean_mr1),0)
 else
 PVR_ANDROID_HAS_HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED := 1
 endif
@@ -246,13 +247,6 @@ endif
 #
 ifeq ($(is_at_least_kitkat),1)
 PVR_ANDROID_REMAP_HW_ONLY_PIXEL_FORMATS := 1
-endif
-
-##############################################################################
-# Workaround for texture atlas "double registerBuffer" issue in KK
-#
-ifeq ($(is_at_least_kitkat),1)
-PVR_ANDROID_DONT_ENFORCE_SINGLE_REGISTER := 1
 endif
 
 ##############################################################################
