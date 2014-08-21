@@ -21,4 +21,6 @@ PRODUCT_PACKAGES += \
 	TIInit_10.6.15.bts \
 	TIInit_11.8.32.bts \
 	TIInit_12.7.27.bts \
-	TIInit_12.8.32.bts
+	TIInit_12.8.32.bts \
+	TIInit_12.10.28.bts
+
