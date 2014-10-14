@@ -512,7 +512,7 @@ ifneq ($(PVR_LINUX_MEM_AREA_POOL_MAX_PAGES),0)
 PVR_LINUX_MEM_AREA_USE_VMAP ?= 1
 include ../kernel_version.mk
 ifeq ($(call kernel-version-at-least,3,0),true)
-PVR_LINUX_MEM_AREA_POOL_ALLOW_SHRINK ?= 1
+PVR_LINUX_MEM_AREA_POOL_ALLOW_SHRINK ?= 0
 endif
 endif
 $(eval $(call KernelConfigC,PVR_LINUX_MEM_AREA_POOL_MAX_PAGES,$(PVR_LINUX_MEM_AREA_POOL_MAX_PAGES)))

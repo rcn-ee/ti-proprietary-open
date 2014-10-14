@@ -14,11 +14,19 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+#include <linux/pm_opp.h>
+#include <linux/of.h>
+#else
 #include <linux/opp.h>
+#endif
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0))
 #include <plat/gpu.h>
 #endif
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+#include <linux/pm_voltage_domain.h>
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
 #include <linux/regulator/consumer.h>
 #endif
 
@@ -46,7 +54,12 @@ static struct sgxfreq_data {
 	struct clk *per_clk;
 	struct clk *gpu_core_clk;
 	struct clk *gpu_hyd_clk;
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 	struct regulator *gpu_reg;
+#endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+	struct notifier_block *clk_nb;
+#endif
 #endif
 } sfd;
 
@@ -202,7 +215,7 @@ static const struct attribute *sgxfreq_attributes[] = {
 };
 
 /************************ end sysfs interface ************************/
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)) && (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 static int set_volt_for_freq(unsigned long freq)
 {
 	struct opp *opp;
@@ -248,6 +261,7 @@ static int __set_freq(void)
 	freq = min(sfd.freq_request, sfd.freq_limit);
 	if (freq != sfd.freq) {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 		if (freq > sfd.freq) {
 			/* Going up - must scale voltage before clocks */
 			if (set_volt_for_freq(freq) != 0) {
@@ -256,6 +270,7 @@ static int __set_freq(void)
 				goto err1;
 			}
 		}
+#endif
 
 		ret = clk_set_rate(sfd.gpu_core_clk, freq);
 		if (ret) {
@@ -271,6 +286,7 @@ static int __set_freq(void)
 			goto err3;
 		}
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 		if (freq < sfd.freq) {
 			/* Going down - must scale voltage after clocks */
 			if(set_volt_for_freq(freq) != 0) {
@@ -279,7 +295,7 @@ static int __set_freq(void)
 				goto err4;
 			}
 		}
-
+#endif
 #elif (LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0))
 		sfd.pdata->device_scale(sfd.dev, sfd.dev, freq);
 #else
@@ -290,15 +306,19 @@ static int __set_freq(void)
 		goto noerr;
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0))
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 err4:
+#endif
 		ret |= clk_set_rate(sfd.gpu_hyd_clk, sfd.freq);
 
 err3:
 		ret |= clk_set_rate(sfd.gpu_core_clk, sfd.freq);
 err2:
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 		if(freq > sfd.freq)
 			ret |= set_volt_for_freq(sfd.freq);
 err1:
+#endif
 #endif
 noerr:
 		return ret;
@@ -374,7 +394,13 @@ int sgxfreq_init(struct device *dev)
 {
 	int i, ret;
 	unsigned long freq;
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+	struct dev_pm_opp *opp;
+	struct device_node *np;
+	unsigned int voltage_latency;
+#else
 	struct opp *opp;
+#endif
 	struct timeval tv;
 
 	sfd.dev = dev;
@@ -399,14 +425,38 @@ int sgxfreq_init(struct device *dev)
                 pr_err("sgxfreq: failed to init OPP table: %d\n", ret);
 		return -EINVAL;
         }
-
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 	sfd.freq_cnt = opp_get_opp_count(dev);
+#else
+	sfd.freq_cnt = dev_pm_opp_get_opp_count(dev);
+#endif
 #endif
 	if (sfd.freq_cnt < 1) {
+		pr_err("sgxfreq: failed to get operating frequencies\n");
 		rcu_read_unlock();
 		return -ENODEV;
 	}
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+	np = of_node_get(dev->of_node);
+        sfd.clk_nb = of_pm_voltdm_notifier_register(dev, np, sfd.gpu_core_clk, "gpu",
+                                                &voltage_latency);
+
+        if (IS_ERR(sfd.clk_nb)) {
+                ret = PTR_ERR(sfd.clk_nb);
+                /* defer probe if regulator is not yet registered */
+                if (ret == -EPROBE_DEFER) {
+                        dev_err(dev,
+                                "gpu clock notifier not ready, retry\n");
+                } else {
+                        dev_err(dev,
+                                "Failed to register gpu clock notifier: %d\n",
+                                ret);
+                }
+		return ret;
+        }
+
+#endif
 	sfd.freq_list = kmalloc(sfd.freq_cnt * sizeof(unsigned long), GFP_ATOMIC);
         if (!sfd.freq_list) {
 		rcu_read_unlock();
@@ -417,8 +467,11 @@ int sgxfreq_init(struct device *dev)
 	for (i = 0; i < sfd.freq_cnt; i++) {
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0))
 		opp = sfd.pdata->opp_find_freq_ceil(dev, &freq);
-#else
+#elif (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 		opp = opp_find_freq_ceil(dev, &freq);
+#else
+		/* 3.14 and later kernels */
+		opp = dev_pm_opp_find_freq_ceil(dev, &freq);
 #endif
 		if (IS_ERR_OR_NULL(opp)) {
 			rcu_read_unlock();
@@ -466,6 +519,8 @@ int sgxfreq_init(struct device *dev)
 		return ret;
 	}
 
+
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 	sfd.gpu_reg = devm_regulator_get(dev, "gpu");
 	if (IS_ERR(sfd.gpu_reg)) {
 		if (PTR_ERR(sfd.gpu_reg) == -EPROBE_DEFER) {
@@ -475,6 +530,7 @@ int sgxfreq_init(struct device *dev)
 		pr_err("sgxfreq: failed to get gpu regulator: %ld\n", PTR_ERR(sfd.gpu_reg));
 		sfd.gpu_reg = NULL;
 	}
+#endif
 
 	ret = clk_set_parent(sfd.gpu_hyd_clk, sfd.core_clk);
 	if (ret != 0) {
