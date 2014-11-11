@@ -17,7 +17,4 @@ LOCAL_PATH := $(call my-dir)
 
 TARGET_EXTRACTED_FW := $(PRODUCT_OUT)/extracted_firmwares
 
-ifeq ($(strip $(USES_TI_MAC80211)),true)
 include $(call all-makefiles-under, $(LOCAL_PATH))
-endif
-
