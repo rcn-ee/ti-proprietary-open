@@ -116,8 +116,7 @@ prebuilt_sgx_vendor_bins := \
 #	etc/powervr.ini
 
 prebuilt_sgx_vendor_km := \
-	modules/pvrsrvkm.ko \
-	modules/omaplfb.ko
+	modules/pvrsrvkm.ko
 
 prebuilt_sgx_modules := \
   $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\

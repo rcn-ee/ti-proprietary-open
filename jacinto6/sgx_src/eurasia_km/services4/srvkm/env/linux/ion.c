@@ -140,6 +140,28 @@ IMG_VOID IonDeinit(IMG_VOID)
 
 #else /* defined(CONFIG_ION_INCDHAD1) */
 
+#if defined(CONFIG_ION_DUMMY)
+
+/* Real ion with sharing (dummy) */
+
+extern struct ion_device *idev;
+struct ion_device *gpsIonDev;
+
+PVRSRV_ERROR IonInit(IMG_VOID)
+{
+        gpsIonDev = idev;
+        return PVRSRV_OK;
+}
+
+
+IMG_VOID IonDeinit(IMG_VOID)
+{
+        gpsIonDev = IMG_NULL;
+}
+
+#else /* defined(CONFIG_ION_DUMMY) */
+
+
 /* "Reference" ion implementation */
 
 #include SUPPORT_ION_PRIV_HEADER
@@ -240,6 +262,7 @@ IMG_VOID IonDeinit(IMG_VOID)
 	kfree(gapsIonHeaps);
 	ion_device_destroy(gpsIonDev);
 }
+#endif /* defined(CONFIG_ION_DUMMY) */
 
 #endif /* defined(CONFIG_ION_INCDHAD1) */
 

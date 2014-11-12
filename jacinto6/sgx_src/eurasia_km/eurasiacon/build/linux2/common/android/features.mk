@@ -186,9 +186,8 @@ endif
 # We also need to support IMPLEMENTATION_DEFINED so gralloc allocates
 # framebuffers and GPU buffers in a 'preferred' format.
 #
-# FB HAL is still being used in TI post JB MR1 releases.
-SUPPORT_ANDROID_FRAMEBUFFER_HAL := 1
 ifeq ($(is_at_least_jellybean_mr1),0)
+SUPPORT_ANDROID_FRAMEBUFFER_HAL := 1
 else
 PVR_ANDROID_HAS_HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED := 1
 endif
