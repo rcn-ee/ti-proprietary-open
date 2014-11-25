@@ -4634,7 +4634,7 @@ PVRSRV_ERROR PVROSFuncInit(IMG_VOID)
     }
 #endif
 
-#if defined (SUPPORT_ION)
+#if 0//defined (SUPPORT_ION)
 	{
 		PVRSRV_ERROR eError;
 
@@ -4654,7 +4654,7 @@ PVRSRV_ERROR PVROSFuncInit(IMG_VOID)
  */
 IMG_VOID PVROSFuncDeInit(IMG_VOID)
 {
-#if defined (SUPPORT_ION)
+#if 0//defined (SUPPORT_ION)
 	IonDeinit();
 #endif
 #if defined(PVR_LINUX_TIMERS_USING_WORKQUEUES)

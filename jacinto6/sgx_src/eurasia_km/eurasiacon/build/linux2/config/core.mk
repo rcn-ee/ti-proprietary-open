@@ -578,6 +578,7 @@ $(eval $(call TunableBothConfigC,PVRSRV_NEED_PVR_ASSERT,))
 $(eval $(call TunableBothConfigC,PVRSRV_NEED_PVR_TRACE,))
 $(eval $(call TunableBothConfigC,SUPPORT_SECURE_33657_FIX,))
 $(eval $(call TunableBothConfigC,SUPPORT_ION,))
+$(eval $(call TunableBothConfigC,SUPPORT_DRM_GEM,))
 $(eval $(call TunableBothConfigC,SUPPORT_HWRECOVERY_TRACE_LIMIT,))
 $(eval $(call TunableBothConfigC,SUPPORT_PVRSRV_DEVICE_CLASS,))
 $(eval $(call TunableBothConfigC,SUPPORT_PVRSRV_GET_DC_SYSTEM_BUFFER,1))
@@ -619,6 +620,7 @@ $(eval $(call TunableKernelConfigC,SUPPORT_FORCE_SYNC_DUMP,))
 
 $(eval $(call TunableBothConfigMake,OPTIM,))
 $(eval $(call TunableBothConfigMake,SUPPORT_ION,))
+$(eval $(call TunableBothConfigMake,SUPPORT_DRM_GEM,))
 $(eval $(call TunableBothConfigMake,SUPPORT_PVRSRV_DEVICE_CLASS,))
 
 

@@ -85,9 +85,10 @@ typedef enum _PVRSRV_MEMTYPE_
 	PVRSRV_MEMTYPE_DEVICECLASS	= 2,
 	PVRSRV_MEMTYPE_WRAPPED		= 3,
 	PVRSRV_MEMTYPE_MAPPED		= 4,
-	PVRSRV_MEMTYPE_ION			= 5,
-	PVRSRV_MEMTYPE_ALLOC		= 6,
-	PVRSRV_MEMTYPE_FREE	    	= 7
+	PVRSRV_MEMTYPE_ION		= 5,
+	PVRSRV_MEMTYPE_DMABUF		= 6,
+	PVRSRV_MEMTYPE_ALLOC		= 7,
+	PVRSRV_MEMTYPE_FREE	    	= 8
 } PVRSRV_MEMTYPE;
 
 #if defined (MEM_TRACK_INFO_DEBUG)
@@ -151,7 +152,7 @@ typedef struct _PVRSRV_KERNEL_MEM_INFO_
 	/* ptr to associated kernel sync info - NULL if no sync */
 	struct _PVRSRV_KERNEL_SYNC_INFO_	*psKernelSyncInfo;
 
-	IMG_HANDLE				hIonSyncInfo;
+	IMG_HANDLE				hExternalSyncInfo;
 
 	PVRSRV_MEMTYPE				memType;
 

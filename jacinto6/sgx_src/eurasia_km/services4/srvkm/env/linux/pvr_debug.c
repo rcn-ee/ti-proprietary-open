@@ -462,18 +462,17 @@ IMG_VOID PVRSRVDebugPrintf	(
 		}
 		else
 		{
+			const IMG_CHAR *pszShortName = strrchr(pszFileName, '/') + 1;
+			if(pszShortName)
+				pszFileName = pszShortName;
 			if (ui32DebugLevel & DBGPRIV_BUFFERED)
 			{
 				/* We don't need the full path here */
-				const IMG_CHAR *pszShortName = strrchr(pszFileName, '/') + 1;
-				if(pszShortName)
-					pszFileName = pszShortName;
-
 				AddToBufferCCB(pszFileName, ui32Line, pszBuf);
 			}
 			else
 			{
-				printk(KERN_INFO "%s\n", pszBuf);
+				printk(KERN_INFO "%s (File: %s, Line: %d)\n", pszBuf, pszFileName, ui32Line);
 			}
 		}
 

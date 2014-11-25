@@ -169,6 +169,8 @@ extern "C" {
 #define PVRSRV_MISC_INFO_GET_REF_COUNT_PRESENT			(1U<<7)
 #define PVRSRV_MISC_INFO_GET_PAGE_SIZE_PRESENT			(1U<<8)
 #define PVRSRV_MISC_INFO_FORCE_SWAP_TO_SYSTEM_PRESENT	(1U<<9)
+#define PVRSRV_MISC_INFO_GET_DRM_FD_PRESENT				(1U<<10)
+#define PVRSRV_MISC_INFO_SET_DRM_FD_PRESENT				(1U<<11)
 
 #define PVRSRV_MISC_INFO_RESET_PRESENT					(1U<<31)
 
@@ -444,6 +446,9 @@ typedef struct _PVRSRV_CLIENT_MEM_INFO_
 	IMG_UINT32							dummy2;
 	#endif /* !defined(USE_CODE) */
 #endif /* defined(SUPPORT_MEMINFO_IDS) */
+#if defined(SUPPORT_DRM_GEM)
+	IMG_SIZE_T							uiDmabufBufferSize;
+#endif /* defined(SUPPORT_DRM_GEM) */
 #if defined(SUPPORT_ION)
 	IMG_SIZE_T							uiIonBufferSize;
 #endif /* defined(SUPPORT_ION) */
@@ -577,6 +582,7 @@ typedef struct _PVRSRV_MISC_INFO_
 	} sGetRefCountCtl;
 
 	IMG_UINT32 ui32PageSize;
+	IMG_INT32 iDrmFd;
 } PVRSRV_MISC_INFO;
 
 /*!
@@ -777,6 +783,21 @@ PVRSRV_ERROR IMG_CALLCONV PVRSRVMapDeviceMemory2(IMG_CONST PVRSRV_DEV_DATA	*psDe
 												 IMG_HANDLE					hDstDevMemHeap,
 												 PVRSRV_CLIENT_MEM_INFO		**ppsDstMemInfo);
 #endif /* defined(LINUX) */
+
+#if defined(SUPPORT_DRM_GEM)
+PVRSRV_ERROR PVRSRVMapDmabuf(const PVRSRV_DEV_DATA *psDevData,
+								IMG_HANDLE hDevMemHeap,
+								IMG_UINT32 ui32NumFDs,
+								IMG_INT    *paiBufferFDs,
+								IMG_UINT32 ui32ChunkCount,
+								IMG_SIZE_T *pauiOffset,
+								IMG_SIZE_T *pauiSize,
+								IMG_UINT32 ui32Attribs,
+								PVRSRV_CLIENT_MEM_INFO **ppsMemInfo);
+
+PVRSRV_ERROR PVRSRVUnmapDmabuf(const PVRSRV_DEV_DATA *psDevData,
+								  PVRSRV_CLIENT_MEM_INFO *psMemInfo);
+#endif /* defined (SUPPORT_DRM_GEM) */
 
 #if defined(SUPPORT_ION)
 PVRSRV_ERROR PVRSRVMapIonHandle(const PVRSRV_DEV_DATA *psDevData,

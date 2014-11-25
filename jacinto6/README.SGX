@@ -16,9 +16,9 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2917986
 [DDK commit ID]
-    a0d3db4 tmp: Changes for Android L
+    0c60181 android: update hal_public.h for TI formats
 [Branch]
-    android/1.12/2917986_k3.14_L
+    android/1.12/2917986_k3.14_L_gem
 [Kernel modules built against]
     Kernel Version: 3.14.y with CONFIG_MODVERSIONS=y
 
@@ -33,7 +33,7 @@ Make sure kernel is built before building modules
 # export KERNELDIR=path_to_kernel
 
 To build for OMAP5 (SGX 544 multi core):
-# make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" PLATFORM_VERSION=4.4 BUILD=release
+# make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" PLATFORM_VERSION=5.0 BUILD=debug
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 

@@ -59,6 +59,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "lists.h"
 
 IMG_UINT32	g_ui32InitFlags;
+IMG_UINT32  g_iDrmFd = -1;
 
 /* mark which parts of Services were initialised */
 #define		INIT_DATA_ENABLE_PDUMPINIT	0x1U
@@ -458,7 +459,7 @@ PVRSRV_ERROR IMG_CALLCONV PVRSRVInit(PSYS_DATA psSysData)
 	g_ui32InitFlags |= INIT_DATA_ENABLE_PDUMPINIT;
 #endif
 
-#if defined(SUPPORT_ION)
+#if defined(SUPPORT_ION) || defined(SUPPORT_DRM_GEM)
 	eError = PVRSRVInitDeviceMem();
 	if (eError != PVRSRV_OK)
 		goto Error;
@@ -502,7 +503,7 @@ IMG_VOID IMG_CALLCONV PVRSRVDeInit(PSYS_DATA psSysData)
 	PERFDEINIT();
 
 
-#if defined(SUPPORT_ION)
+#if defined(SUPPORT_ION) || defined(SUPPORT_DRM_GEM)
 	if ((g_ui32InitFlags & INIT_DATA_ENABLE_DEVMEM) > 0)
 	{
 		PVRSRVDeInitDeviceMem();
@@ -1216,7 +1217,9 @@ PVRSRV_ERROR IMG_CALLCONV PVRSRVGetMiscInfoKM(PVRSRV_MISC_INFO *psMiscInfo)
 										|PVRSRV_MISC_INFO_FREEMEM_PRESENT
 										|PVRSRV_MISC_INFO_GET_REF_COUNT_PRESENT
 										|PVRSRV_MISC_INFO_GET_PAGE_SIZE_PRESENT
-										|PVRSRV_MISC_INFO_FORCE_SWAP_TO_SYSTEM_PRESENT))
+										|PVRSRV_MISC_INFO_FORCE_SWAP_TO_SYSTEM_PRESENT
+										|PVRSRV_MISC_INFO_GET_DRM_FD_PRESENT
+										|PVRSRV_MISC_INFO_SET_DRM_FD_PRESENT))
 	{
 		PVR_DPF((PVR_DBG_ERROR,"PVRSRVGetMiscInfoKM: invalid state request flags"));
 		return PVRSRV_ERROR_INVALID_PARAMS;
@@ -1477,6 +1480,18 @@ PVRSRV_ERROR IMG_CALLCONV PVRSRVGetMiscInfoKM(PVRSRV_MISC_INFO *psMiscInfo)
 		psMiscInfo->ui32StatePresent |= PVRSRV_MISC_INFO_FORCE_SWAP_TO_SYSTEM_PRESENT;
 	}
 #endif /* defined(SUPPORT_PVRSRV_DEVICE_CLASS) */
+	if ((psMiscInfo->ui32StateRequest & PVRSRV_MISC_INFO_GET_DRM_FD_PRESENT) != 0UL)
+	{
+		PVR_DPF((PVR_DBG_ERROR,"PVRSRVGetMiscInfoKM: GetDrmFD: %d", g_iDrmFd));
+		psMiscInfo->iDrmFd = g_iDrmFd;
+		psMiscInfo->ui32StatePresent |= PVRSRV_MISC_INFO_GET_DRM_FD_PRESENT;
+	}
+	if ((psMiscInfo->ui32StateRequest & PVRSRV_MISC_INFO_SET_DRM_FD_PRESENT) != 0UL)
+	{
+		g_iDrmFd = psMiscInfo->iDrmFd;
+		PVR_DPF((PVR_DBG_ERROR,"PVRSRVGetMiscInfoKM: SetDrmFD: %d", g_iDrmFd));
+		psMiscInfo->ui32StatePresent |= PVRSRV_MISC_INFO_SET_DRM_FD_PRESENT;
+	}
 
 	return PVRSRV_OK;
 }

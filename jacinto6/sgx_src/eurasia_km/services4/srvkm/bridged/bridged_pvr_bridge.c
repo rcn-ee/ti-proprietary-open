@@ -1392,6 +1392,154 @@ PVRSRVUnwrapExtMemoryBW(IMG_UINT32 ui32BridgeID,
 	return 0;
 }
 
+#if defined(SUPPORT_DRM_GEM)
+static IMG_INT
+PVRSRVMapDmabufBW(IMG_UINT32 ui32BridgeID,
+					   PVRSRV_BRIDGE_IN_MAP_DMABUF *psMapDmabufIN,
+					   PVRSRV_BRIDGE_OUT_MAP_DMABUF *psMapDmabufOUT,
+					   PVRSRV_PER_PROCESS_DATA *psPerProc)
+{
+	PVRSRV_KERNEL_MEM_INFO  *psKernelMemInfo;
+	IMG_UINT64 ui64Stamp;
+
+	psMapDmabufOUT->eError = PVRSRVLookupHandle(psPerProc->psHandleBase,
+											 &psMapDmabufIN->hDevCookie,
+											 psMapDmabufIN->hDevCookie,
+											 PVRSRV_HANDLE_TYPE_DEV_NODE);
+	if (psMapDmabufOUT->eError != PVRSRV_OK)
+	{
+		PVR_DPF((PVR_DBG_ERROR, "%s: Failed to lookup device node handle", __FUNCTION__));
+		return 0;
+	}
+
+	psMapDmabufOUT->eError = PVRSRVLookupHandle(psPerProc->psHandleBase,
+											 &psMapDmabufIN->hDevMemHeap,
+											 psMapDmabufIN->hDevMemHeap,
+											 PVRSRV_HANDLE_TYPE_DEV_MEM_HEAP);
+	if (psMapDmabufOUT->eError != PVRSRV_OK)
+	{
+		PVR_DPF((PVR_DBG_ERROR, "%s: Failed to lookup memory context handle", __FUNCTION__));
+		return 0;
+	}
+
+	psMapDmabufOUT->eError = PVRSRVMapDmabufKM(psPerProc,
+											   psMapDmabufIN->hDevCookie,
+											   psMapDmabufIN->hDevMemHeap,
+											   psMapDmabufIN->ui32NumFDs,
+											   psMapDmabufIN->ai32BufferFDs,
+											   psMapDmabufIN->ui32Attribs,
+											   psMapDmabufIN->ui32ChunkCount,
+											   psMapDmabufIN->auiOffset,
+											   psMapDmabufIN->auiSize,
+											   &psMapDmabufOUT->uiDmabufBufferSize,
+											   &psKernelMemInfo,
+											   &ui64Stamp);
+	if (psMapDmabufOUT->eError != PVRSRV_OK)
+	{
+		PVR_DPF((PVR_DBG_ERROR, "%s: Failed to map ion handle", __FUNCTION__));
+		return 0;
+	}
+
+	OSMemSet(&psMapDmabufOUT->sClientMemInfo,
+			 0,
+			 sizeof(psMapDmabufOUT->sClientMemInfo));
+
+	psMapDmabufOUT->sClientMemInfo.pvLinAddrKM =
+			psKernelMemInfo->pvLinAddrKM;
+
+	psMapDmabufOUT->sClientMemInfo.pvLinAddr = 0;
+	psMapDmabufOUT->sClientMemInfo.sDevVAddr = psKernelMemInfo->sDevVAddr;
+	psMapDmabufOUT->sClientMemInfo.ui32Flags = psKernelMemInfo->ui32Flags;
+	psMapDmabufOUT->sClientMemInfo.uAllocSize = psKernelMemInfo->uAllocSize;
+
+	/* No mapping info, we map through ion */
+	psMapDmabufOUT->sClientMemInfo.hMappingInfo = IMG_NULL;
+
+#if defined(SUPPORT_MEMINFO_IDS)
+	psMapDmabufOUT->sClientMemInfo.ui64Stamp = ui64Stamp;
+#endif
+
+	PVRSRVAllocHandleNR(psPerProc->psHandleBase,
+						&psMapDmabufOUT->sClientMemInfo.hKernelMemInfo,
+						psKernelMemInfo,
+						PVRSRV_HANDLE_TYPE_MEM_INFO,
+						PVRSRV_HANDLE_ALLOC_FLAG_NONE);
+
+	if(psMapDmabufIN->ui32Attribs & PVRSRV_MEM_NO_SYNCOBJ)
+	{
+		/* signal no syncinfo */
+		OSMemSet(&psMapDmabufOUT->sClientSyncInfo,
+				 0,
+				 sizeof (PVRSRV_CLIENT_SYNC_INFO));
+		psMapDmabufOUT->sClientMemInfo.psClientSyncInfo = IMG_NULL;
+	}
+	else
+	{
+		/* and setup the sync info */
+#if !defined(PVRSRV_DISABLE_UM_SYNCOBJ_MAPPINGS)
+		psMapDmabufOUT->sClientSyncInfo.psSyncData =
+			psKernelMemInfo->psKernelSyncInfo->psSyncData;
+		psMapDmabufOUT->sClientSyncInfo.sWriteOpsCompleteDevVAddr =
+			psKernelMemInfo->psKernelSyncInfo->sWriteOpsCompleteDevVAddr;
+		psMapDmabufOUT->sClientSyncInfo.sReadOpsCompleteDevVAddr =
+			psKernelMemInfo->psKernelSyncInfo->sReadOpsCompleteDevVAddr;
+		psMapDmabufOUT->sClientSyncInfo.sReadOps2CompleteDevVAddr =
+			psKernelMemInfo->psKernelSyncInfo->sReadOps2CompleteDevVAddr;
+
+		psMapDmabufOUT->sClientSyncInfo.hMappingInfo =
+			psKernelMemInfo->psKernelSyncInfo->psSyncDataMemInfoKM->sMemBlk.hOSMemHandle;
+#endif
+
+		PVRSRVAllocSubHandleNR(psPerProc->psHandleBase,
+							   &psMapDmabufOUT->sClientSyncInfo.hKernelSyncInfo,
+							   psKernelMemInfo->psKernelSyncInfo,
+							   PVRSRV_HANDLE_TYPE_SYNC_INFO,
+							   PVRSRV_HANDLE_ALLOC_FLAG_NONE,
+							   psMapDmabufOUT->sClientMemInfo.hKernelMemInfo);
+
+		psMapDmabufOUT->sClientMemInfo.psClientSyncInfo =
+			&psMapDmabufOUT->sClientSyncInfo;
+	}
+	return 0;
+}
+
+static IMG_INT
+PVRSRVUnmapDmabufBW(IMG_UINT32 ui32BridgeID,
+					   PVRSRV_BRIDGE_IN_UNMAP_DMABUF *psUnmapDmabufIN,
+					   PVRSRV_BRIDGE_RETURN *psUnmapDmabufOUT,
+					   PVRSRV_PER_PROCESS_DATA *psPerProc)
+{
+	IMG_VOID *pvKernelMemInfo;
+
+	PVRSRV_BRIDGE_ASSERT_CMD(ui32BridgeID, PVRSRV_BRIDGE_UNMAP_DMABUF);
+
+	psUnmapDmabufOUT->eError =
+        PVRSRVLookupHandle(psPerProc->psHandleBase,
+                           &pvKernelMemInfo,
+						   psUnmapDmabufIN->psKernelMemInfo,
+						   PVRSRV_HANDLE_TYPE_MEM_INFO);
+
+	if(psUnmapDmabufOUT->eError != PVRSRV_OK)
+	{
+		return 0;
+	}
+
+	psUnmapDmabufOUT->eError = PVRSRVUnmapDmabufKM(pvKernelMemInfo);
+
+	if(psUnmapDmabufOUT->eError != PVRSRV_OK)
+	{
+		return 0;
+	}
+
+	psUnmapDmabufOUT->eError =
+		PVRSRVReleaseHandle(psPerProc->psHandleBase,
+							psUnmapDmabufIN->psKernelMemInfo,
+							PVRSRV_HANDLE_TYPE_MEM_INFO);
+
+	return 0;
+}
+#endif	/* SUPPORT_ION */
+
 #if defined(SUPPORT_ION)
 static IMG_INT
 PVRSRVMapIonHandleBW(IMG_UINT32 ui32BridgeID,
@@ -2122,6 +2270,15 @@ PVRSRVGetMiscInfoBW(IMG_UINT32 ui32BridgeID,
 		 * kernel side buffer */
 		psGetMiscInfoOUT->eError = PVRSRV_ERROR_INVALID_PARAMS;
 		return 0;
+	}
+
+	if((psGetMiscInfoIN->sMiscInfo.ui32StateRequest & PVRSRV_MISC_INFO_GET_DRM_FD_PRESENT) != 0)
+	{
+		PVR_DPF((PVR_DBG_ERROR, "Get DRM FD BW"));
+	}
+	if((psGetMiscInfoIN->sMiscInfo.ui32StateRequest & PVRSRV_MISC_INFO_SET_DRM_FD_PRESENT) != 0)
+	{
+		PVR_DPF((PVR_DBG_ERROR, "Set DRM FD BW"));
 	}
 
 	if (((psGetMiscInfoIN->sMiscInfo.ui32StateRequest & PVRSRV_MISC_INFO_MEMSTATS_PRESENT) != 0) ||
@@ -4489,6 +4646,10 @@ CommonBridgeInit(IMG_VOID)
     SetDispatchTableEntry(PVRSRV_BRIDGE_CHG_DEV_MEM_ATTRIBS, PVRSRVChangeDeviceMemoryAttributesBW);
     SetDispatchTableEntry(PVRSRV_BRIDGE_MAP_DEV_MEMORY_2, PVRSRVMapDeviceMemoryBW);
     SetDispatchTableEntry(PVRSRV_BRIDGE_EXPORT_DEVICEMEM_2, PVRSRVExportDeviceMemBW);
+#if defined(SUPPORT_DRM_GEM)
+	SetDispatchTableEntry(PVRSRV_BRIDGE_MAP_DMABUF, PVRSRVMapDmabufBW);
+	SetDispatchTableEntry(PVRSRV_BRIDGE_UNMAP_DMABUF, PVRSRVUnmapDmabufBW);
+#endif
 #if defined(SUPPORT_ION)
 	SetDispatchTableEntry(PVRSRV_BRIDGE_MAP_ION_HANDLE, PVRSRVMapIonHandleBW);
 	SetDispatchTableEntry(PVRSRV_BRIDGE_UNMAP_ION_HANDLE, PVRSRVUnmapIonHandleBW);

@@ -78,6 +78,11 @@ pvrsrvkm-y += \
 	services4/srvkm/common/queue.o
 endif
 
+ifeq ($(SUPPORT_DRM_GEM),1)
+pvrsrvkm-y += \
+	services4/srvkm/env/linux/dmabuf.o
+endif
+
 ifeq ($(SUPPORT_ION),1)
 pvrsrvkm-y += \
 	services4/srvkm/env/linux/ion.o

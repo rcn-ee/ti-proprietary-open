@@ -83,7 +83,7 @@ static DEFINE_SPINLOCK(gsCCBLock);
 /*static const IMG_UINT guiDebugMask = PVRSRV_REFCOUNT_CCB_DEBUG_ALL;*/
 static const IMG_UINT guiDebugMask =
 	PVRSRV_REFCOUNT_CCB_DEBUG_SYNCINFO |
-#if defined(SUPPORT_ION)
+#if defined(SUPPORT_DRM_GEM) || defined(SUPPORT_ION)
 	PVRSRV_REFCOUNT_CCB_DEBUG_ION_SYNC |
 #endif
 	PVRSRV_REFCOUNT_CCB_DEBUG_MMAP2;
@@ -588,8 +588,8 @@ skip:
 	psOffsetStruct->ui32Mapped--;
 }
 
-#if defined(SUPPORT_ION)
-PVRSRV_ERROR PVRSRVIonBufferSyncInfoIncRef2(const IMG_CHAR *pszFile, IMG_INT iLine,
+#if defined(SUPPORT_DRM_GEM) || defined(SUPPORT_ION)
+PVRSRV_ERROR PVRSRVExternalBufferSyncInfoIncRef2(const IMG_CHAR *pszFile, IMG_INT iLine,
 											IMG_HANDLE hUnique,
 											IMG_HANDLE hDevCookie,
 											IMG_HANDLE hDevMemContext,
@@ -601,7 +601,7 @@ PVRSRV_ERROR PVRSRVIonBufferSyncInfoIncRef2(const IMG_CHAR *pszFile, IMG_INT iLi
 	/*
 		We have to do the call 1st as we need to Ion syninfo which it returns
 	*/
-	eError = PVRSRVIonBufferSyncAcquire(hUnique,
+	eError = PVRSRVExternalBufferSyncAcquire(hUnique,
 										hDevCookie,
 										hDevMemContext,
 										ppsIonSyncInfo);
@@ -637,7 +637,7 @@ skip:
 	return eError;
 }
 
-void PVRSRVIonBufferSyncInfoDecRef2(const IMG_CHAR *pszFile, IMG_INT iLine,
+void PVRSRVExternalBufferSyncInfoDecRef2(const IMG_CHAR *pszFile, IMG_INT iLine,
 									PVRSRV_ION_SYNC_INFO *psIonSyncInfo,
 									PVRSRV_KERNEL_MEM_INFO *psKernelMemInfo)
 {
@@ -665,7 +665,7 @@ void PVRSRVIonBufferSyncInfoDecRef2(const IMG_CHAR *pszFile, IMG_INT iLine,
 
 	PVRSRV_UNLOCK_CCB();
 skip:
-	PVRSRVIonBufferSyncRelease(psIonSyncInfo);
+	PVRSRVExternalBufferSyncRelease(psIonSyncInfo);
 }
 
 #endif /* defined (SUPPORT_ION) */
