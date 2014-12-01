@@ -1,5 +1,5 @@
 /*************************************************************************/ /*!
-@Title          Services Ion synchronisation integration
+@Title          Ion driver inter-operability code.
 @Copyright      Copyright (c) Imagination Technologies Ltd. All Rights Reserved
 @License        Dual MIT/GPLv2
 
@@ -39,35 +39,20 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */ /**************************************************************************/
 
-#include "img_defs.h"
+#ifndef __IMG_LINUX_DMABUF_H__
+#define __IMG_LINUX_DMABUF_H__
+
 #include "img_types.h"
-#include "servicesint.h"
+#include "servicesext.h"
 
-#ifndef __ION_SYNC_H__
-#define __ION_SYNC_H__
+PVRSRV_ERROR DmabufImportBufferAndAcquirePhysAddr(IMG_UINT32 ui32NumFDs,
+											   IMG_INT32  *pi32BufferFDs,
+											   IMG_UINT32 *pui32PageCount,
+											   IMG_SYS_PHYADDR **ppsSysPhysAddr,
+											   IMG_PVOID *ppvKernAddr0,
+											   IMG_HANDLE *phPriv,
+											   IMG_HANDLE *phUnique);
 
-typedef struct _PVRSRV_ION_SYNC_INFO_ {
-	PVRSRV_KERNEL_SYNC_INFO *psSyncInfo;
-	IMG_HANDLE				hUnique;
-	IMG_UINT32				ui32RefCount;
-	IMG_UINT64				ui64Stamp;
-} PVRSRV_ION_SYNC_INFO;
+IMG_VOID DmabufUnimportBufferAndReleasePhysAddr(IMG_HANDLE hPriv);
 
-PVRSRV_ERROR PVRSRVIonBufferSyncAcquire(IMG_HANDLE hUnique,
-										IMG_HANDLE hDevCookie,
-										IMG_HANDLE hDevMemContext,
-										PVRSRV_ION_SYNC_INFO **ppsIonSyncInfo);
-
-IMG_VOID PVRSRVIonBufferSyncRelease(PVRSRV_ION_SYNC_INFO *psIonSyncInfo);
-
-static INLINE PVRSRV_KERNEL_SYNC_INFO *IonBufferSyncGetKernelSyncInfo(PVRSRV_ION_SYNC_INFO *psIonSyncInfo)
-{
-	return psIonSyncInfo->psSyncInfo;
-}
-
-static INLINE IMG_UINT64 IonBufferSyncGetStamp(PVRSRV_ION_SYNC_INFO *psIonSyncInfo)
-{
-	return psIonSyncInfo->ui64Stamp;
-}
-
-#endif /* __ION_SYNC_H__ */
+#endif /* __IMG_LINUX_DMABUF_H__ */

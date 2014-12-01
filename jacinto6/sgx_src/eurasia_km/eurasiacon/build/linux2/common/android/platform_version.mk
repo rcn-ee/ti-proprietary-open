@@ -45,7 +45,7 @@ PLATFORM_VERSION := $(shell \
 		cat $(TARGET_ROOT)/product/$(TARGET_DEVICE)/system/build.prop | \
 			grep ^ro.build.version.release | cut -f2 -d'=' | cut -f1 -d'-'; \
 	else \
-		echo 1.6; \
+		echo 5.0; \
 	fi)
 
 define version-starts-with
