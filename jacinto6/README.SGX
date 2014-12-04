@@ -16,13 +16,13 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2917986
 [DDK commit ID]
-    beb4722 [HACK] sgx-um: Allow map to go through despite mmap failure
+    ea397cf sgx-um: Remove drmSetMaster and drmDropMaster calls
 [Branch]
     android/1.12/2917986_k3.14_L_gem
 [Kernel modules built against]
     Kernel Version: 3.14.y with CONFIG_MODVERSIONS=y
 [Build type]
-    debug (export BUILD=debug)
+    release (export BUILD=release)
 
 #===========================================================================
 #   Building SGX Kernel Modules
@@ -36,11 +36,11 @@ Make sure kernel is built before building modules
 # export PATH=<path to kernel toolchain>:$PATH
 
 To build for OMAP5 (SGX 544 multi core):
-# make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" BUILD=debug
+# make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
-# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/binary2_omap_android_debug/target/
+# cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/binary2_omap_android_release/target/
 # adb push pvrsrvkm.ko /system/lib/modules/
 
 If you build the kernel module, it is highly advisable to replace the binaries
