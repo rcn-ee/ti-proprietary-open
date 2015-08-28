@@ -110,18 +110,44 @@ PVRSRV_ERROR DmabufImportBufferAndAcquirePhysAddr(IMG_UINT32 ui32NumFDs,
 	{
 		int fd = (int)pai32BufferFDs[i];
 
+		/* connect to the buffer */
 		psImportData->apsDmaBuf[i] = dma_buf_get(fd);
-		if (psImportData->apsDmaBuf[i] == IMG_NULL)
+		if (IS_ERR_OR_NULL(psImportData->apsDmaBuf[i]))
 		{
+			dev_err(&gpsPVRLDMDev->dev,
+				   "dma_buf_get() returned bad dma_buf handle\n");
 			eError = PVRSRV_ERROR_BAD_MAPPING;
 			goto exitFailImport;
 		}
 
 		psImportData->apsDmaBufAttachment[i] = dma_buf_attach(psImportData->apsDmaBuf[i],
 									&gpsPVRLDMDev->dev);
+        if (IS_ERR_OR_NULL(psImportData->apsDmaBufAttachment[i]))
+        {
+			dev_err(&gpsPVRLDMDev->dev,
+				   "dma_buf_attach() returned bad attachment struct\n");
+            eError = PVRSRV_ERROR_BAD_MAPPING;
+            goto exitFailImport;
+        }
 
+		/* requesting access to the buffer */
 		psImportData->apsSgTable[i] = dma_buf_map_attachment(psImportData->apsDmaBufAttachment[i],
 							DMA_BIDIRECTIONAL);
+        if (IS_ERR_OR_NULL(psImportData->apsSgTable[i]))
+        {
+			dev_err(&gpsPVRLDMDev->dev,
+				   "dma_buf_map_attachment returned stale sgtable: %d\n",
+				   (int)psImportData->apsSgTable[i]);
+#if defined(DEBUG)
+            /* lets dump the stack trace here */
+            WARN_ON(true);
+			/* TODO: print all the current omap bo info */
+#endif
+            dma_buf_detach(psImportData->apsDmaBuf[i],
+                    psImportData->apsDmaBufAttachment[i]);
+            eError = PVRSRV_ERROR_OUT_OF_MEMORY;
+            goto exitFailImport;
+        }
 
 		psScatterList[i] = psImportData->apsSgTable[i]->sgl;
 		if (psScatterList[i] == NULL)

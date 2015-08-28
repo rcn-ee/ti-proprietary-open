@@ -16,7 +16,7 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2917986
 [DDK commit ID]
-    b26ac90 SGX-UM: EGL server wait fix.
+    78cec7b sgx-km: check for dma_buf errors while importing them.
 [Branch]
     android/1.12/2917986_k3.14_L_gem
 [Kernel modules built against]
