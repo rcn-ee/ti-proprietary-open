@@ -16,11 +16,11 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2917986
 [DDK commit ID]
-    3005661 um: Clear mte region clip state in emit masks.
+    ab0b57a tmp: Disable DVFS and SYNC for kernel 4.4
 [Branch]
-    android/1.12/2917986_k3.14_M
+    android/1.12/2917986_k4.4
 [Kernel modules built against]
-    Kernel Version: 3.14.y with CONFIG_MODVERSIONS=y
+    Kernel Version: 4.4.y with CONFIG_MODVERSIONS=y
 [Build type]
     release (export BUILD=release)
 
