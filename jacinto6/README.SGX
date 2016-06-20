@@ -1,7 +1,7 @@
 /*
  * TECHNOLOGY AND SOFTWARE PUBLICLY AVAILABLE
  *
- * Copyright (c) 2011, Texas Instruments Incorporated.
+ * Copyright (c) 2016, Texas Instruments Incorporated.
  *
  * All rights reserved.
  *
@@ -14,11 +14,11 @@
 sgx.tgz a set of binaries built for SGX544.
 
 [DDK Version]
-    1.12/2917986
+    1.14/4001660
 [DDK commit ID]
-    ab0b57a tmp: Disable DVFS and SYNC for kernel 4.4
+    036d7d2 (HACK) SGX-UM: Copy pvrsrvctl as pvrsrvinit
 [Branch]
-    android/1.12/2917986_k4.4
+    android/1.14/4001660_k4.4_M
 [Kernel modules built against]
     Kernel Version: 4.4.y with CONFIG_MODVERSIONS=y
 [Build type]
@@ -35,7 +35,7 @@ Make sure kernel is built before building modules
 # export KERNELDIR=path_to_kernel
 # export PATH=<path to kernel toolchain>:$PATH
 
-To build for OMAP5 (SGX 544 multi core):
+To build for Jacinto6 (SGX 544 multi core):
 # make ARCH=arm KERNEL_CROSS_COMPILE=arm-eabi- CROSS_COMPILE=arm-eabi- TARGET_PRODUCT="jacinto6evm" BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
