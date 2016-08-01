@@ -13,6 +13,6 @@
 # limitations under the License.
 #
 
-ifeq ($(TARGET_BOARD_PLATFORM),jacinto6)
+ifeq ($(TARGET_BOARD_PLATFORM),$(filter $(TARGET_BOARD_PLATFORM),jacinto6 am57x))
   include $(call all-subdir-makefiles)
 endif
