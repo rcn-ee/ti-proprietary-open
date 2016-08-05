@@ -28,9 +28,10 @@ LOCAL_PATH := $$(img-sgx.untarred_bin)
 include $$(BUILD_SYSTEM)/base_rules.mk
 $$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
 $$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
-	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
+	$(eval FIXED_SRC := $$(img-sgx.untarred_bin)/$(subst $(TARGET_BOARD_PLATFORM),jacinto6,$1))
+	@echo "Copy $$@ <- $(FIXED_SRC)"
 	@mkdir -p $(dir $$@)
-	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
+	$$(hide) $$(ACP) -fp $(FIXED_SRC) $$@
 endef
 
 define _add-sgx-vendor-bin
@@ -99,8 +100,8 @@ prebuilt_sgx_vendor_libs := \
 	lib/libusc.so \
 	lib/libPVRScopeServices.so \
 	lib/libsrv_um.so \
-	lib/hw/gralloc.jacinto6.so \
-	lib/hw/memtrack.jacinto6.so \
+	lib/hw/gralloc.$(TARGET_BOARD_PLATFORM).so \
+	lib/hw/memtrack.$(TARGET_BOARD_PLATFORM).so \
 	lib/libpvrANDROID_WSEGL.so \
 	lib/libpvr2d.so \
 	lib/libsrv_init.so \
