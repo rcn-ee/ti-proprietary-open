@@ -15,6 +15,4 @@
 
 LOCAL_PATH := $(call my-dir)
 
-TARGET_EXTRACTED_FW := $(PRODUCT_OUT)/extracted_firmwares
-
 include $(call all-makefiles-under, $(LOCAL_PATH))

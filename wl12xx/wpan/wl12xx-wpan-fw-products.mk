@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 
-WPAN_FW_TOP := device/ti/proprietary-open/wl12xx/wpan
+WPAN_TGZ := device/ti/proprietary-open/wl12xx/wpan/wpan.tgz
 
-$(call inherit-product, $(WPAN_FW_TOP)/bluetooth/wl12xx-wpan-bt-fw-products.mk)
+PRODUCT_PACKAGES += \
+	TIInit_12.10.28.bts

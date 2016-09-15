@@ -18,41 +18,43 @@ ifeq ($(strip $(BOARD_WLAN_DEVICE)),wl12xx_mac80211)
 
 TI_WILINK_FW_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
 
-WLAN_FW_BINS := \
-	wl18xx-fw-4.bin \
-	wl18xx-conf.bin
+ti-wl12xx-wlan.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-wl12xx-wlan.untarred)
+ti-wl12xx-wlan.untarred_timestamp := $(ti-wl12xx-wlan.untarred_intermediates)/stamp
 
-# path to FM fws (related to top dir)
-FW_WLAN_PATH := $(TARGET_EXTRACTED_FW)/wlan
-
-# path related to current location
-FW_WLAN_FULL_PATH := ../../../../../$(FW_WLAN_PATH)
+$(ti-wl12xx-wlan.untarred_timestamp) : $(WLAN_TGZ)
+	@echo "Unzip $(dir $@) <- $<)"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -zxf $<
+	$(hide) touch $@
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := wl18xx-fw-4.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl18xx-fw-4.bin
-LOCAL_MODULE_CLASS := FIRMWARE
+LOCAL_SRC_FILES := wl18xx-fw-4.bin
+LOCAL_MODULE_CLASS := FAKE
 LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-wl12xx-wlan.untarred_intermediates)/wlan/wl18xx-fw-4.bin
+$(LOCAL_BUILT_MODULE) : $(ti-wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := wl18xx-conf.bin
-LOCAL_SRC_FILES := $(FW_WLAN_FULL_PATH)/wl18xx-conf.bin
-LOCAL_MODULE_CLASS := FIRMWARE
+LOCAL_SRC_FILES := wl18xx-conf.bin
+LOCAL_MODULE_CLASS := FAKE
 LOCAL_MODULE_PATH := $(TI_WILINK_FW_PATH)
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := ti
-include $(BUILD_PREBUILT)
 
-WLAN_FW_FILES := $(addprefix $(LOCAL_PATH)/$(FW_WLAN_FULL_PATH)/, $(WLAN_FW_BINS))
-.PHONY: $(WLAN_FW_FILES)
-$(WLAN_FW_FILES): $(FW_WLAN_FULL_PATH)
-	$(hide) tar -C $(FW_WLAN_PATH) --strip-components=1 \
-		-f $(WLAN_TGZ) -xzp wlan/$(notdir $@)
+include $(BUILD_SYSTEM)/base_rules.mk
 
-$(FW_WLAN_FULL_PATH):
-	$(hide) mkdir -p $(FW_WLAN_PATH)
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-wl12xx-wlan.untarred_intermediates)/wlan/wl18xx-conf.bin
+$(LOCAL_BUILT_MODULE) : $(ti-wl12xx-wlan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
 
 endif
-
