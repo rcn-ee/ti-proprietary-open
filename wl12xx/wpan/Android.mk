@@ -15,6 +15,32 @@
 
 LOCAL_PATH := $(call my-dir)
 
-WPAN_TGZ := device/ti/proprietary-open/wl12xx/wpan/wpan.tgz
+ifeq ($(strip $(BOARD_HAVE_BLUETOOTH_TI)),true)
 
-include $(call all-makefiles-under, $(LOCAL_PATH))
+TI_WILINK_BT_FW_PATH := $(TARGET_OUT_ETC)/firmware
+
+ti-wl12xx-wpan.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-wl12xx-wpan.untarred)
+ti-wl12xx-wpan.untarred_timestamp := $(ti-wl12xx-wpan.untarred_intermediates)/stamp
+
+$(ti-wl12xx-wpan.untarred_timestamp) : $(WPAN_TGZ)
+	@echo "Unzip $(dir $@) <- $<)"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -zxf $<
+	$(hide) touch $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := TIInit_12.10.28.bts
+LOCAL_SRC_FILES := TIInit_12.10.28.bts
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_PATH := $(TI_WILINK_BT_FW_PATH)
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-wl12xx-wpan.untarred_intermediates)/wpan/bluetooth/TIInit_12.10.28.bts
+$(LOCAL_BUILT_MODULE) : $(ti-wl12xx-wpan.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+endif
