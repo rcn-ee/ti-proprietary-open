@@ -16,7 +16,7 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.14/4001660
 [DDK commit ID]
-    036d7d2 (HACK) SGX-UM: Copy pvrsrvctl as pvrsrvinit
+    3ed372b um: gralloc: change stride alignment to 16 pixels
 [Branch]
     android/1.14/4001660_k4.4_M
 [Kernel modules built against]
