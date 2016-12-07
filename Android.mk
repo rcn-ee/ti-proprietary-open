@@ -42,6 +42,35 @@ endif
 #############################################
 
 #############################################
+# Install J6Entry touch firmware
+#############################################
+ifneq ($(TOUCH_TGZ),)
+ti-touch.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-touch.untarred)
+ti-touch.untarred_timestamp := $(ti-touch.untarred_intermediates)/stamp
+
+$(ti-touch.untarred_timestamp) : $(TOUCH_TGZ)
+	@echo "Unzip $(dir $@) <- $<)"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -zxf $<
+	$(hide) touch $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := $(TOUCH_BINARY)
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/firmware
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-touch.untarred_intermediates)/$(TOUCH_BINARY)
+$(LOCAL_BUILT_MODULE) : $(ti-touch.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+endif
+#############################################
+
+#############################################
 # Install Tesla-binary FW
 #############################################
 
