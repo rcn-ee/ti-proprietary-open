@@ -16,7 +16,7 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.12/2917986
 [DDK commit ID]
-    60cbf54 Enabling android native fence sync support.
+    0e26fb8 SGX-UM: Gralloc: Fix UV ordering issue with NV12 buffer  locking
 [Branch]
     android/1.12/2917986_k3.14_L_gem
 [Kernel modules built against]
