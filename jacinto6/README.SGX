@@ -16,9 +16,9 @@ sgx.tgz a set of binaries built for SGX544.
 [DDK Version]
     1.14/4001660
 [DDK commit ID]
-    3ed372b um: gralloc: change stride alignment to 16 pixels
+    3b54e17 km: Add am57xxevm target to build system
 [Branch]
-    android/1.14/4001660_k4.4_M
+    android/1.14/4081762_k4.4_M
 [Kernel modules built against]
     Kernel Version: 4.4.y with CONFIG_MODVERSIONS=y
 [Build type]
