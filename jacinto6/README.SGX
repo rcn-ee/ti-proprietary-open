@@ -34,13 +34,14 @@ Make sure kernel is built before building modules
 # cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/build/linux2/omap_android/
 # export ANDROID_ROOT=path_to_android_fs_source
 # export KERNELDIR=path_to_kernel_source
-# export CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
-# export KERNEL_CROSS_COMPILE==$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
+# export CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+# export KERNEL_CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 # export ARCH=arm
 # export PATH=<path to kernel toolchain>:$PATH
 
-To build for Jacinto6 (SGX 544 multi core):
+To build for Jacinto6/AM57x (SGX 544 multi core):
 # make TARGET_PRODUCT="jacinto6evm" BUILD=release
+# make TARGET_PRODUCT="am57xevm" BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 
