@@ -99,3 +99,46 @@ $(LOCAL_BUILT_MODULE) : $(ti-tesla.untarred_timestamp) | $(ACP)
 	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
 endif
 #############################################
+
+#############################################
+# Install prueth firmware
+#############################################
+ifneq ($(PRUETH_TGZ),)
+ti-prueth.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-prueth.untarred)
+ti-prueth.untarred_timestamp := $(ti-prueth.untarred_intermediates)/stamp
+
+$(ti-prueth.untarred_timestamp) : $(PRUETH_TGZ)
+	@echo "Unzip $(dir $@) <- $<)"
+	$(hide) rm -rf $(dir $@) && mkdir -p $(dir $@)
+	$(hide) tar -C $(dir $@) -zxf $<
+	$(hide) touch $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := am57xx-pru0-prueth-fw.elf
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/firmware/ti-pruss
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-prueth.untarred_intermediates)/am57xx-pru0-prueth-fw.elf
+$(LOCAL_BUILT_MODULE) : $(ti-prueth.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := am57xx-pru1-prueth-fw.elf
+LOCAL_MODULE_CLASS := FAKE
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR)/firmware/ti-pruss
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $(ti-prueth.untarred_intermediates)/am57xx-pru1-prueth-fw.elf
+$(LOCAL_BUILT_MODULE) : $(ti-prueth.untarred_timestamp) | $(ACP)
+	@echo "Copy $@ <- $(PRIVATE_SRC)"
+	@mkdir -p $(dir $@)
+	$(hide) $(ACP) -fp $(PRIVATE_SRC) $@
+endif
+#############################################
