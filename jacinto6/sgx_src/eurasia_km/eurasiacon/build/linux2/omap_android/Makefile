@@ -51,10 +51,6 @@ ifeq ($(TARGET_DEVICE),)
 override TARGET_DEVICE := jacinto6evm
 endif
 
-ifeq ($(TARGET_DEVICE),)
-override TARGET_DEVICE := am57xevm
-endif
-
 # Customize this build as per the TARGET_DEVICE setting
 #
 ifneq ($(filter blaze blaze_tablet panda tuna maguro toro mysid yakju,$(TARGET_DEVICE)),)
@@ -99,8 +95,7 @@ SUPPORT_ACTIVE_POWER_MANAGEMENT := 0
 endif
 
 ifneq ($(filter am57xevm,$(TARGET_DEVICE)),)
-HAL_VARIANT                                     := am57x
-
+HAL_VARIANT                                     := am57xevm
 endif
 
 # Handle any TARGET_DEVICE remapping. Not all DDK TARGET_DEVICEs

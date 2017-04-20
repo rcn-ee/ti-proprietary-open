@@ -14,11 +14,11 @@
 sgx.tgz a set of binaries built for SGX544.
 
 [DDK Version]
-    1.14/4001660
+    1.14/4081762
 [DDK commit ID]
-    3ed372b um: gralloc: change stride alignment to 16 pixels
+    2a3afec gralloc: Dont translate formats on video encoder usage
 [Branch]
-    android/1.14/4001660_k4.4_M
+    android/1.14/4081762_k4.4_M
 [Kernel modules built against]
     Kernel Version: 4.4.y with CONFIG_MODVERSIONS=y
 [Build type]
@@ -34,13 +34,14 @@ Make sure kernel is built before building modules
 # cd ANDROID_ROOT/device/ti/proprietary-open/jacinto6/sgx_src/eurasia_km/eurasiacon/build/linux2/omap_android/
 # export ANDROID_ROOT=path_to_android_fs_source
 # export KERNELDIR=path_to_kernel_source
-# export CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
-# export KERNEL_CROSS_COMPILE==$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
+# export CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+# export KERNEL_CROSS_COMPILE=$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 # export ARCH=arm
 # export PATH=<path to kernel toolchain>:$PATH
 
-To build for Jacinto6 (SGX 544 multi core):
+To build for Jacinto6/AM57x (SGX 544 multi core):
 # make TARGET_PRODUCT="jacinto6evm" BUILD=release
+# make TARGET_PRODUCT="am57xevm" BUILD=release
 
 Once the .ko is built, install it onto device (/system/lib/modules)
 

@@ -161,6 +161,10 @@ TESTED_HOST_USER_FLAGS += \
 KBUILD_FLAGS := \
  -Wno-unused-parameter -Wno-sign-compare
 
+# androideabi toolchain adds `pic` by default, disable it
+# for kernel module build
+KBUILD_FLAGS += -fno-pic
+
 TESTED_KBUILD_FLAGS := \
  $(call kernel-cc-option,-Wmissing-include-dirs) \
  $(call kernel-cc-option,-Wno-type-limits) \
