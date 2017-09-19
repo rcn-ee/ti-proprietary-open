@@ -17,7 +17,7 @@ LOCAL_PATH := $(call my-dir)
 
 ifeq ($(strip $(BOARD_HAVE_BLUETOOTH_TI)),true)
 
-TI_WILINK_BT_FW_PATH := $(TARGET_OUT_ETC)/firmware
+TI_WILINK_BT_FW_PATH := $(TARGET_OUT_VENDOR)/firmware
 
 ti-wl12xx-wpan.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-wl12xx-wpan.untarred)
 ti-wl12xx-wpan.untarred_timestamp := $(ti-wl12xx-wpan.untarred_intermediates)/stamp

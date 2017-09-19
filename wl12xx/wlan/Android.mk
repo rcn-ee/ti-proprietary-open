@@ -16,7 +16,7 @@ LOCAL_PATH := $(call my-dir)
 
 ifeq ($(strip $(BOARD_WLAN_DEVICE)),wl12xx_mac80211)
 
-TI_WILINK_FW_PATH := $(TARGET_OUT_ETC)/firmware/ti-connectivity
+TI_WILINK_FW_PATH := $(TARGET_OUT_VENDOR)/firmware/ti-connectivity
 
 ti-wl12xx-wlan.untarred_intermediates := $(call intermediates-dir-for, FAKE, ti-wl12xx-wlan.untarred)
 ti-wl12xx-wlan.untarred_timestamp := $(ti-wl12xx-wlan.untarred_intermediates)/stamp
