@@ -41,25 +41,25 @@
 # If there's no build.prop file in the expected location, bail out. Tell the
 # user which file we were trying to read in case TARGET_DEVICE was not set.
 #
-BUILD_PROP := $(TARGET_ROOT)/product/$(TARGET_DEVICE)/system/build.prop
-ifeq ($(wildcard $(BUILD_PROP)),)
-$(warning *** Could not determine Android version.  Did you set ANDROID_ROOT,\
-OUT_DIR and TARGET_DEVICE in your environment correctly?)
-$(error Error reading $(BUILD_PROP))
-endif
+#BUILD_PROP := $(TARGET_ROOT)/product/$(TARGET_DEVICE)/system/build.prop
+#ifeq ($(wildcard $(BUILD_PROP)),)
+#$(warning *** Could not determine Android version.  Did you set ANDROID_ROOT,\
+#OUT_DIR and TARGET_DEVICE in your environment correctly?)
+#$(error Error reading $(BUILD_PROP))
+#endif
 
 # Extract version.release and version.codename from the build.prop file.
 # If either of the values aren't in the build.prop, the Make variables won't
 # be defined, and fallback handling will take place.
 #
-define newline
-
-
-endef
-$(eval $(subst #,$(newline),$(shell cat $(BUILD_PROP) | \
-	grep '^ro.build.version.release=\|^ro.build.version.codename=' | \
-	sed -e 's,ro.build.version.release=,PLATFORM_RELEASE=,' \
-	    -e 's,ro.build.version.codename=,PLATFORM_CODENAME=,' | tr '\n' '#')))
+#define newline
+#
+#
+#endef
+#$(eval $(subst #,$(newline),$(shell cat $(BUILD_PROP) | \
+#	grep '^ro.build.version.release=\|^ro.build.version.codename=' | \
+#	sed -e 's,ro.build.version.release=,PLATFORM_RELEASE=,' \
+#	    -e 's,ro.build.version.codename=,PLATFORM_CODENAME=,' | tr '\n' '#')))
 
 define release-starts-with
 $(shell echo $(PLATFORM_RELEASE) | grep -q ^$(1); \

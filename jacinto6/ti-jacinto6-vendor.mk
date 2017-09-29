@@ -17,4 +17,5 @@
 # the Texas Instruments OMAP 54xx series SoCs
 
 PRODUCT_PACKAGES += \
+	pvrsrvkm \
 	ti_jacinto6_sgx_libs

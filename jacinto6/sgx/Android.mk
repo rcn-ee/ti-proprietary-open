@@ -74,26 +74,6 @@ $$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
 	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
 endef
 
-define _add-sgx-vendor-km
-include $$(CLEAR_VARS)
-$(if $(word 2,$1),$(error Invalid SGX module name $1))
-LOCAL_MODULE := $(basename $(notdir $1))
-LOCAL_SRC_FILES := $1
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_SUFFIX := $(suffix $1)
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH := $$(TARGET_OUT)/lib/$(dir $1)
-LOCAL_STRIP_MODULE := false
-OVERRIDE_BUILT_MODULE_PATH := $$(TARGET_OUT_INTERMEDIATE_ETC)
-LOCAL_PATH := $$(img-sgx.untarred_bin)
-include $$(BUILD_SYSTEM)/base_rules.mk
-$$(LOCAL_BUILT_MODULE) : PRIVATE_SRC := $$(img-sgx.untarred_bin)/$1
-$$(LOCAL_BUILT_MODULE) : $$(img-sgx.untarred_timestamp) | $$(ACP)
-	@echo "Copy $$@ <- $$(PRIVATE_SRC)"
-	@mkdir -p $$(dir $$@)
-	$$(hide) $$(ACP) -fp $$(PRIVATE_SRC) $$@
-endef
-
 prebuilt_sgx_vendor_libs := \
 	lib/libIMGegl.so \
 	lib/libglslcompiler.so \
@@ -116,11 +96,8 @@ prebuilt_sgx_vendor_bins := \
 #prebuilt_sgx_vendor_etc := \
 #	etc/powervr.ini
 
-prebuilt_sgx_vendor_km := \
-	modules/pvrsrvkm.ko
-
 prebuilt_sgx_modules := \
-  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc) $(prebuilt_sgx_vendor_km),\
+  $(foreach _file,$(prebuilt_sgx_vendor_libs) $(prebuilt_sgx_vendor_bins) $(prebuilt_sgx_vendor_etc),\
     $(notdir $(basename $(_file))))
 
 include $(CLEAR_VARS)
@@ -138,15 +115,10 @@ $(foreach _file,$(prebuilt_sgx_vendor_bins),\
 $(foreach _file,$(prebuilt_sgx_vendor_etc),\
   $(eval $(call _add-sgx-vendor-etc,$(_file))))
 
-$(foreach _file,$(prebuilt_sgx_vendor_km),\
-  $(eval $(call _add-sgx-vendor-km,$(_file))))
-
 prebuilt_sgx_modules :=
 prebuilt_sgx_vendor_libs :=
 prebuilt_sgx_vendor_bins :=
 prebuilt_sgx_vendor_etc :=
-prebuilt_sgx_vendor_km :=
 _add-sgx-vendor-lib :=
 _add-sgx-vendor-bin :=
 _add-sgx-vendor-etc :=
-_add-sgx-vendor-km :=
