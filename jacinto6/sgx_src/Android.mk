@@ -36,7 +36,7 @@ $(PVRSRVKM): $(local-build)/Makefile $(KERNELDIR)/.version
 		ANDROID_ROOT=$(ANDROID_BUILD_TOP) \
 		PLATFORM_RELEASE="8.0" \
 		OUT=$(ANDROID_BUILD_TOP)/$(out-intermediates)
-	@$(ACP) -fp $(ANDROID_BUILD_TOP)/$(out-intermediates)/target/$(MODULE_TARGET) $@
+	@$(ACP) -fp $(ANDROID_BUILD_TOP)/$(out-intermediates)/target_armv7-a/$(MODULE_TARGET) $@
 	@echo "Finished building $@"
 
 GEN := $(out-intermediates)/$(MODULE_TARGET)
