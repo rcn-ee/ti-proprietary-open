@@ -14,9 +14,9 @@
 sgx.tgz a set of binaries built for SGX544.
 
 [DDK Version]
-    3.1.3-aa3ea63
+    6AO.1.1.1-860359b
 [DDK commit ID]
-    aa3ea63 Merge pull request #12
+    860359b7 um: Update version to 6AO.1.1
 [Branch]
     android/1.17/494897_k4.4_O
 [Kernel modules built against]
